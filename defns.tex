@@ -1,0 +1,224 @@
+\documentclass[11pt]{article}
+
+%% ========================================================
+%% package imports
+
+\usepackage{infimum}
+
+%% ========================================================
+%% document
+
+
+\begin{document}
+
+    
+    \section{Polynomial Rings and Ideals}
+
+    \subsection{Preliminaries}
+
+    \begin{definition}{\textbf{Algebraically Closed} Field}
+        We say a field $K$ is \emph{algebraically closed} if every nonconstant $f\in K\left[ \vec{x} \right]$ has a root.
+    \end{definition}
+
+    \begin{definition}{\textbf{Degree}, \textbf{Support} of a Polynomial}
+        Let $f = \sum^{}_{i}c_{vec}\vec{x}^{\vec{a}}$ be a polynomial. Then the \textbf{degree} of $f$ is
+        \begin{equation*}
+            \deg\left( f \right) = \max\left\lbrace \sum^{}_{i}a_i: c_{\vec{a}}\neq 0 \right\rbrace.
+        \end{equation*}
+        The \emph{support} of $f$ is
+        \begin{equation*}
+            \supp\left( f \right) = \left\lbrace \vec{a}: c_{\vec{a}}\neq 0 \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}{\textbf{Homogeneous} Polynomial}
+        We say $f$ is \textbf{homogeneous} of degree $i$ if it is only supported in degree $i$.
+    \end{definition}
+
+    \begin{definition}{\textbf{Hilbert Series} of a Graded Ring}
+        A \emph{Hilbert series} of a graded ring $S$ is
+        \begin{equation*}
+            H\left( S;t \right) = \sum^{}_{i\in\N} \dim\left( S_i \right) t^i.
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}{\textbf{Ideal} of a Polynomial Ring}
+        An \emph{ideal} is a nonempty subset $I\subseteq K\left[ \vec{x} \right]$ such that
+        \begin{equation*}
+            f,h\in I, g\in K\left[ \vec{x} \right] \implies fg+h \in I.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{definition}{Ideal \textbf{Generated} by a Subset}
+        Let $F\subseteq K\left[ \vec{x} \right]$. We define the ideal \emph{generated} by $F$, denoted as $\left< F \right>$ (or $\left( F \right)$), to be
+        \begin{equation*}
+            \left< F \right> = \bigcap^{}_{} \left\lbrace I\supseteq F: \text{$I$ is an ideal} \right\rbrace, 
+        \end{equation*}
+        or the smallest ideal containing $F$.
+    \end{definition}
+    
+    \begin{definition}{\textbf{Homogeneous} Ideal}
+        An ideal $I\subseteq K\left[ \vec{x} \right]$ is \emph{homogeneous} if there exist homogeneous polynomials that generate $I$.\footnotemark[1]
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{Polynomials need not have the same degree.}
+        \end{minipage}
+    \end{definition}
+    
+    \begin{definition}{\textbf{Quotient Ring}}
+        Let $I\subseteq K\left[ \vec{x} \right]$ be an ideal. Given any $f\in K\left[ \vec{x} \right]$, the \emph{residue class} of $f$ modulo $I$ is the set
+        \begin{equation*}
+            f+I = \left\lbrace f+i: i\in I \right\rbrace.
+        \end{equation*}
+        Then there is an equivalence relation $\sim$ on $K\left[ \vec{x} \right]$ by
+        \begin{equation*}
+            f\sim g \iff f+I = g+I.
+        \end{equation*}
+        The \emph{quotient ring} $S /I$ is the ring structure on the set of all residue classes $S /\sim$, with addition
+        \begin{equation*}
+            \left( f+I \right) + \left( g+I \right) = \left( f+g \right) + I
+        \end{equation*}
+        and multiplication
+        \begin{equation*}
+            \left( f+I \right)\left( g+I \right) = fg+I.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{definition}{\textbf{Product Ideal}, \textbf{Colon Ideal} of Two Ideals}
+        Let $I,J$ be ideals. We define the \emph{product ideal} of $I,J$, denoted as $IJ$, to be
+        \begin{equation*}
+            IJ = \left< fg: f\in I, g\in J \right> .
+        \end{equation*}
+
+        We also define the \emph{colon ideal} of $I,J$, denoted as $I:J$, as
+        \begin{equation*}
+            I:J = \left\lbrace f\in S: \forall j\in J\left[ fj\in I \right] \right\rbrace = \left\lbrace f\in S: fJ\subseteq I \right\rbrace.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{definition}{\textbf{Radical} of an Ideal}
+        Let $I$ be an ideal. The \emph{radical} of $I$ is
+        \begin{equation*}
+            \sqrt{I} = \left\lbrace f\in S: \exists k\in\N\left[ f^k\in I \right] \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \section{Algebraic Geometry}
+
+    \subsection{Introduction}
+
+    \begin{definition}{\textbf{Vanishing Locus} of a Subset of a Polynomial Ring}
+        For any $F\subseteq S$, we define a \emph{variety} $V\left( F \right)$ (or $V_K\left( F \right)$ when we want to specify the field $K$) by
+        \begin{equation*}
+            V\left( F \right) = \left\lbrace \vec{p}\in K^n: \forall f\in F\left[ f\left( \vec{p} \right) = 0 \right] \right\rbrace,
+        \end{equation*}
+        called the \emph{vanishing locus} of $F$.
+    \end{definition}
+    
+    \subsection{Schemes}
+    
+    \begin{definition}{\textbf{Radical Ideal} of a Variety}
+        Let $X = V\left( F \right)$ be a variety. Then the \emph{radical ideal} of $X$ is the set
+        \begin{equation*}
+            I\left( X \right) = \left\lbrace f\in K\left[ \vec{x} \right] : \forall x\in X\left[ f\left( x \right)=0 \right] \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}{\textbf{Scheme} of a Set of Polynomials}
+        For every $F\subseteq K\left[ \vec{x} \right]$, we define the \emph{scheme} of $F$, denoted as $V_{\infty}\left( F \right)$, by
+        \begin{equation*}
+            V_{\infty}\left( F \right) = \left\lbrace V_R\left( F \right) : \text{$R\supseteq K$ is a ring extension of $K$} \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \subsection{Monomial Ideals}
+    
+    \begin{definition}{\textbf{Monomial Ideal}}
+        A \emph{monomial ideal} in $K\left[ \vec{x} \right]$ is an ideal generated by monomials.
+    \end{definition}
+
+    \begin{definition}{\textbf{Hyperplane} of a Vector Space}
+        A \emph{hyperplane} is a codimension $1$ vecor subspace.
+
+        We say a hyperplane is \emph{coordinate} if it is spanned by axes.
+    \end{definition}
+    
+    \begin{definition}{\textbf{Minimal} Set of Monomials}
+        Let $M$ be a set of monomials. We say $M$ is \emph{minimal} if for every proper subset $N\subset M$, $\left< N \right> \subset \left< M \right> $.   
+    \end{definition}
+    
+    \begin{definition}{\textbf{Canonical Generating Set} of a Monomial Ideal}
+        Let $I$ be a monomial ideal. The \emph{canonical generating set} of $I$, denoted as $G\left( I \right)$, is the unique minimal set of monomial generators in Proposition 2.9.
+    \end{definition}
+    
+    \subsection{Operations on Monomial Ideals}
+    
+    \subsection{Grobner Bases}
+
+    \begin{definition}{\textbf{Monomial Order}}
+        A \emph{monomial order} is a total order on $\N^n$ such that
+        \begin{enumerate}
+            \item if $a<b$ in $\N^n$, then $a+c<b+c$ for all $c\in\N^n$; and\hfill\textit{shifting}
+            \item for all $a\in\N^n$, $a\geq \left( 0,\ldots,0 \right)$.
+        \end{enumerate}
+    \end{definition}
+
+    \begin{definition}{\textbf{Initial Monomial} of a Polynomial}
+        Let $S = K\left[ \vec{x} \right]$ and fix a monomial order $<$. For $f\in S$, if $f$ is nonzero, we define the \emph{initial monomial} (or \emph{leading monomial}) of $f$, denoted as $\initial_<\left( f \right)$, as
+        \begin{equation*}
+            \initial_< \left( f \right) = \text{$<$-greatest monomial of $\supp\left( f \right)$}.
+        \end{equation*}
+        The coefficient $k$ of $\initial_<$ is called the \emph{leading coefficient} (or \emph{initial coefficient}), and $k\initial_<\left( f \right)$ is called the \emph{leading term} (or \emph{initial term}).
+
+        In case $f=0$, we set $\initial_<\left( f \right)=0$.
+    \end{definition}
+
+    \begin{definition}{\textbf{Initial Ideal} of an Ideal}
+        Let $I$ be an ideal. We define the \emph{initial ideal} of $I$, denoted as $\initial_<\left( I \right)$, by
+        \begin{equation*}
+            \initial_<\left( I \right) = \left< \initial_<\left( f \right):f\in I \right>. 
+        \end{equation*}
+    \end{definition}
+
+    \begin{definition}{\textbf{Grobner Basis} for an Ideal}
+        We say $G=\left\lbrace g_i \right\rbrace^{k}_{i=1}$ is a \emph{Grobner basis} for an ideal $I$ if
+        \begin{equation*}
+            \initial\left( I \right) = \left< \initial\left( g_i \right) \right>^k_{i=1}. 
+        \end{equation*}
+    \end{definition}
+
+    \subsection{Division Algorithm}
+    
+    \subsection{Buchberger's Algorithm for Finding a Grobner Basis}
+
+    \begin{definition}{\textbf{$S$-polynomial}}
+        Fix a monomial order. For all $f,g\in K\left[ x \right]$, the \emph{$S$-polynomial} of $f$ by $g$, denoted as $S\left( f,g \right)$, is defined as
+        \begin{equation*}
+            S\left( f,g \right) = \frac{\lcm\left( \initial\left( f \right),\initial\left( g \right) \right)}{c\initial\left( f \right)} f - \frac{\lcm\left( \initial\left( f \right),\initial\left( g \right) \right)}{d\initial\left( g \right)}g,
+        \end{equation*}
+        where $c,d\in K$ are the leading coefficients of $f,g$, respectively.
+    \end{definition}
+    
+    \begin{definition}{\textbf{Reduces to $0$} Modulo $g_1,\ldots,g_m$}
+        We say $f\in K\left[ \vec{x} \right]$ \emph{reduces to $0$} modulo $g_1,\ldots,g_m$ if
+        \begin{equation*}
+            f = \sum^{m}_{i=1} q_ig_i
+        \end{equation*}
+        for some $q_1,\ldots,q_m$ with $\initial\left( f \right)\geq\initial\left( q_ig_i \right)$.
+    \end{definition}
+
+    \subsection{Reduced Grobner Bases}
+    
+    \begin{definition}{\textbf{Reduced} Grobner Basis}
+        Let $G = \left\lbrace g_k \right\rbrace^{m}_{j=1}$ be a Grobner basis for an ideal $I$. We say $G$ is \emph{reduced} if
+        \begin{enumerate}
+            \item all leading coefficients of $g_j$'s are monic; and
+            \item for $i\neq j$, no $u\in\supp\left( g_i \right)$ is divisible by $\initial\left( g_j \right)$.
+        \end{enumerate}
+    \end{definition} 
+    
+
+
+
+\end{document}

@@ -1,0 +1,165 @@
+\documentclass[co439]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Application of Grobner Basis}
+    
+    We are going to discuss about how Grobner basis can be used for real-world computations.
+
+    \subsection{Sudoku}
+
+    When we are writing down polynomial equations
+    \begin{equation*}
+        x = 2, 2-x = 0 , \left( 2-x \right)^{100} = 0 , \ldots,
+    \end{equation*}
+    they are incoding some information.
+    
+    Let's see how we can represent a sudoku board by a polynomial system, and use Grobner basis to solve the system. Recall that sudoku involves a $9\times 9$ grid where each square has a number in $\left\lbrace 1,\ldots,9 \right\rbrace$ and each row, column, $3\times 3$ block has distinct numbers.
+
+    \begin{boxy}{\itckabelstd First Try}
+        Make variables $\left\lbrace x_{i,j} \right\rbrace^{9}_{i,j=1}$, each representing a square. We are going to build a polynomial ideal $I$ as follows.
+
+        Add polynomials
+        \begin{equation*}
+            \left( x_{i,j}-1 \right)\left( x_{i,j}-2 \right)\cdots\left( x_{i,j}-9 \right) , \hspace{2cm}\forall i,j,
+        \end{equation*}
+        to $I$. To encode the row / column / block constraints, observe that if $\left\lbrace y_1,\ldots,y_9 \right\rbrace = \left\lbrace 1,\ldots,9 \right\rbrace$, then
+        \begin{equation*}
+            \begin{aligned}
+                \sum^{9}_{i=1} y_i & = 45 \\
+                \prod^{9}_{i=1} y_i & = 9! = 362880
+            \end{aligned} 
+        \end{equation*}
+        are satisfied.
+
+        Question:
+        \begin{equation*}
+            \text{\textit{does the above constraints make $y_i$'s unique?'}}
+        \end{equation*}
+        The answer is \textit{unfortunately false}; observe that $1,3,4,4,4,5,7,9,9$ also satisfy the constraints but is different from $1,\ldots,9$.
+    \end{boxy}
+
+    \np Now that the first try has failed, we have two choices: either \textit{add more constraints} or \textit{come up with more clever constraints}.
+
+    \begin{boxy}{\itckabelstd Second Try}
+        Add polynomials
+        \begin{equation*}
+            \left( x_{i,j}+2 \right)\left( x_{i,j}+1 \right)\left( x_{i,j}-1 \right)\cdots\left( x_{i,j}-7 \right), \hspace{2cm}\forall i,j,
+        \end{equation*}
+        to $I$ instead. Then observe that the constraints
+        \begin{equation*}
+            \begin{aligned}
+                \sum^{9}_{j=1} y_i & = 25 \\
+                \prod^{9}_{j=1} y_i & = 10080 \\
+            \end{aligned} 
+        \end{equation*}
+        are constraints uniquely satisfied by $-2,-1,1,\ldots,7$.
+    \end{boxy}
+
+    \np This gives us a polynomial system in $81$ variables $x_{i,j}$ with $135$ polynomials of degree at most $9$. Question:
+    \begin{equation*}
+        \text{\textit{how do Grobner bases help solve a system like this?}}
+    \end{equation*}
+    We are going to utilize the \textit{elimination theorem}.
+
+    \begin{theorem}{Elimination Theorem}
+        Let $I\subseteq\Q\left[ x_1,\ldots,x_d \right]$ be an ideal with a Grobner basis $G=\left\lbrace g_1,\ldots,g_r \right\rbrace$ with respect to the monomial lexicographic order $>$, where $x_1>\cdots>x_d$. Then for all $l\in \left\lbrace 0,\ldots,d-1 \right\rbrace$, the set
+        \begin{equation*}
+            I_l = I\cap\Q\left[ x_{l+1},\ldots,x_d \right]
+        \end{equation*}
+        is an ideal in $Q\left[ x_{l+1},\ldots,x_d \right]$, and with respect to $>$, it has a Grobner basis
+        \begin{equation*}
+            G_l = G\cap\Q\left[ x_{l+1},\ldots,x_d \right].
+        \end{equation*}
+    \end{theorem}
+    
+    \begin{proof}
+        For each $l$, note $I_l$ is an ideal since $I$ is an ideal.
+
+        Let $f\in I_l$. Then the leading term $\initial\left( f \right)\in \left< \initial\left( g \right):g\in G \right>$ since $G$ is a Grobner basis. Hence
+        \begin{equation*}
+            \initial\left( g \right) | \initial\left( f \right)
+        \end{equation*}
+        for some $g\in G$, so that
+        \begin{equation*}
+            \initial\left( g \right)\in \Q\left[ x_{l+1},\ldots,x_n \right]
+        \end{equation*}
+        as well. But recall that we have a lexicographic order $>$, which means every other term of $g$ must be in $\Q\left[ x_{l+1},\ldots,x_n \right]$ as well. Hence
+        \begin{equation*}
+            f\in I_l \implies \initial\left( f \right)\in \left< \initial\left( g \right):g\in G_l \right> .
+        \end{equation*}
+
+        We know $\left< G_l \right>\subseteq I_l$. Suppose there is $f\in I_l$ but $f\notin \left< G_l \right>$ for contradiction. We may assume $f$ has the minimal leading term $\initial\left( f \right)$ among elements in $I_l\setminus\left< G_l \right>$. Since $f\in I_l$,
+        \begin{equation*}
+            \initial\left( f \right) = \initial\left( g \right)
+        \end{equation*}
+        for some $g\in G_l$. But then
+        \begin{equation*}
+            \initial\left( f-g \right) \in I_l
+        \end{equation*}
+        has a smaller leading term than $f$, so that $f-g\in \left< G_l \right>$. But $g\in \left< G_l \right>$, so this means $f\in\left< G_l \right>$, which is a contradiction.
+
+        Thus $I_l=\left< G_l \right>$ and $f\in I_l$ implies $\initial\left( f \right) \in \left< \initial\left( g \right): g\in G_l \right>$; that is, $G_l$ is a Grobner basis for $I_l$.  
+    \end{proof}
+
+    \np Lexicographic basis are nice in the above sense, but they are expensive; they can be sometimes computationally infeasible to calculate. It turns out computing Grevlex basis is usually the most efficient choice, and there is an algorithm which allows one to change a Grobner basis with respect to a monomial order to a Grobner basis with respect to another monomial order.
+
+    \begin{boxy}{\itckabelstd Boolean System}
+        Our sum-product system won't terminate in reasonable time, so we are going to adapt an alternative approach called \textit{boolean system}. Add polynomials
+        \begin{equation*}
+            w^{\left( a,b \right)}_i\left( w^{\left( a,b \right)}_i-1 \right), \hspace{2cm}\forall a,b,i\in\left[ 9 \right],
+        \end{equation*}
+        and
+        \begin{equation*}
+            \sum^{9}_{i=1} w^{\left( a,b \right)}_{i}-1, \hspace{2cm}\forall a,b\in\left[ 9 \right]
+        \end{equation*}
+        to the ideal. That is, the first polynomial allow $w_i^{\left( a,b \right)}$ to take only values $0,1$ and the second polynomial allow one and only one of $w_1^{\left( a,b \right)},\ldots,w_9^{\left( a,b \right)}$ to take nonzero value, indicating which sqaure to fill in. To ensure that distinct values are taken for a row / column / block, if $y,z$ are in the same row / column / block, then add
+        \begin{equation*}
+            y_1z_1 + \cdots + y_9z_9 = 0.
+        \end{equation*}
+        This makes $1620$ polynomials of degree $2$ in $729$ variables. That is, we reduced the degree of polynomials by increasing number of variables.
+    \end{boxy}
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}

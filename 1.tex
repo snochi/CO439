@@ -1,0 +1,362 @@
+\documentclass[co439]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Polynomial Rings and Ideals}
+
+    \subsection{Preliminaries}
+    
+    We are going to work with \textit{fields} (e.g. $\Q,\R,\CC,\F_q$ where $q$ is a prime power, $\Z /p$ for some prime $p$, $K\left( t \right)$ where $K$ is a field).
+
+    \begin{definition}{\textbf{Algebraically Closed} Field}
+        We say a field $K$ is \emph{algebraicaly closed} if every nonconstant $f\in K\left[ x \right]$ has a root.
+    \end{definition}
+
+    \np For instance, $x^{2}+1\in\R\left[ x \right]$ but it fails to have roots. Algebraically speaking, algebraically closed fields are \textit{nice}. But computationally, we want to avoid them.
+
+    \begin{theorem}{}
+        Every field $K$ has an \textit{algebraic closure} $\overline{K}$, the unique smallest algebraically closed field containinig $K$.
+    \end{theorem}
+
+    \rruleline
+
+    \np Given a polynomial ring $K\left[ x_1,\ldots,x_n \right]$, we shall often write $K\left[ \vec{x} \right]$ for convenience. $K\left[ \vec{x} \right]$ is a vector space of \textit{finite} $k$-linear sums of \textit{monoids}. That is,
+    \begin{equation*}
+        \vec{x}^{\vec{a}} = x^{a_1}\cdots x^{a_n}
+    \end{equation*}
+    and
+    \begin{equation*}
+        f = \sum^{}_{\vec{a}\in\N^n} \vec{x}^{\vec{a}}.
+    \end{equation*}
+
+
+    \begin{definition}{\textbf{Degree}, \textbf{Support} of a Polynomial}
+        Let $f$ be a polynomial. Then the \textbf{degree} of $f$ is
+        \begin{equation*}
+            \deg\left( f \right) = \max\left\lbrace \sum^{}_{i}a_i: c_{\vec{a}}\neq 0 \right\rbrace.
+        \end{equation*}
+        The \emph{support} of $f$ is
+        \begin{equation*}
+            \supp\left( f \right) = \left\lbrace \vec{a}: c_{\vec{a}}\neq 0 \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \np Note that $K\left[ \vec{x} \right]$ is \emph{graded}.
+
+    \begin{definition}{\textbf{Homogeneous} Polynomial}
+        We say $f$ is \textbf{homogeneous} of degree $i$ if it is only supported in degree $i$.
+    \end{definition}
+
+    \np Let $S=K\left[ \vec{x} \right]$ and write
+    \begin{equation*}
+        S_i = \text{the subset of $S$ of degre $i$ homogeneous polynomials}.
+    \end{equation*}
+    As a vector space,
+    \begin{equation*}
+        S = \bigoplus^{\infty}_{i=0} S_i.
+    \end{equation*}
+    General infinite dimensional vector spaces are \textit{bad} in many sense (e.g. if $\dim\left( V \right)=\infty$, then we cannot tell if the dual of $V$ is nonempty!). But here the story is different, since every $S_i$ is finite dimensional, spanned by monomials of degree $i$. For instance, every $S_i$ has a natural dual, so it is possible to discribe the dual of $S$. Also, an easy combinatorial argument shows that
+    \begin{equation*}
+        \dim\left( S_i \right) = \binom{i+n-1}{n-1}.
+    \end{equation*}
+    The argument is that there are $n+i$ dots and we are choosing $n-i$ dots to remove.
+
+    \begin{definition}{\textbf{Hilbert Series} of a Graded Ring}
+        A \emph{Hilbert series} of a graded ring $S$ is
+        \begin{equation*}
+            H\left( S;t \right) = \sum^{}_{i\in\N} \dim\left( S_i \right) t^i.
+        \end{equation*}
+    \end{definition}
+
+    \np For instance,
+    \begin{equation*}
+        H\left( K\left[ \vec{x} \right];t \right) = \sum^{}_{i\in\N} \binom{i+n-1}{n-1} t^i = \frac{1}{\left( 1-t \right)^n},
+    \end{equation*}
+    where the last equality follows from the negative binomial theorem.
+    
+    \begin{definition}{\textbf{Ideal} of a Polynomial Ring}
+        An \emph{ideal} is a nonempty subset $I\subseteq K\left[ \vec{x} \right]$ such that
+        \begin{equation*}
+            f,h\in I, g\in K\left[ \vec{x} \right] \implies fg+h \in I.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{definition}{Ideal \textbf{Generated} by a Subset}
+        Let $F\subseteq K\left[ \vec{x} \right]$. We define the ideal \emph{generated} by $F$, denoted as $\left< F \right>$ (or $\left( F \right)$), to be
+        \begin{equation*}
+            \left< F \right> = \bigcap^{}_{} \left\lbrace I\supseteq F: \text{$I$ is an ideal} \right\rbrace, 
+        \end{equation*}
+        or the smallest ideal containing $F$.
+    \end{definition}
+    
+    \begin{prop}{}
+        For any $F\subseteq K\left[ \vec{x} \right]$, let $I_F$ be the set of all finite $K\left[ \vec{x} \right]$-linear combinations of elements of $F$. Then
+        \begin{equation*}
+            I_F = \left< F \right>. 
+        \end{equation*}
+    \end{prop}
+
+    \begin{proof}[Proof Sketch]
+        \begin{enumerate}
+            \item $I_F$ is clearly an ideal containing $F$.
+            \item Any ideal containing $F$ contains $I_F$.
+        \end{enumerate}
+    \end{proof}
+
+    \begin{question}
+        Given polynomials $f,g_1,\ldots,g_n\in K\left[ \vec{x} \right]$, how do we tell if $f\in \left< g_1,\ldots,g_n \right>$? 
+
+        For instance, consider $\Q\left[ x,y,z \right], I = \left< xy-z, yz-x,xz-y \right>$. Is $z^{3}-z\in I$? 
+    \end{question}
+
+    \begin{answer}
+        This is a hard question, and we are going to develop a systematic method for this.
+    \end{answer}
+
+    \begin{definition}{\textbf{Homogeneous} Ideal}
+        An ideal $I\subseteq K\left[ \vec{x} \right]$ is \emph{homogeneous} if there exist homogeneous polynomials that generate $I$.\footnotemark[1]
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{Polynomials need not have the same degree.}
+        \end{minipage}
+    \end{definition}
+    
+    \begin{prop}{Characterization of Homogeneous Ideals}
+        Let $S = K\left[ \vec{x} \right]$ and let $I\subseteq S$ be an ideal. The following are equivalent.
+        \begin{enumerate}
+            \item $I$ is homogeneous.
+            \item For every $f\in I$, every homogeneous components are in $I$.\footnotemark[1]
+            \item $I = \bigoplus^{\infty}_{j=0} I_j$, where $I_j = I\cap S_j$, the homogeneous subspace of $I$ of degree $j$.
+        \end{enumerate}
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{e.g. If $f\left( x,y \right) = xy - y$, then it must be the case that $xy\in I, y\in I$.}
+        \end{minipage}
+    \end{prop}
+
+    \begin{proof}
+        (a) $\implies$ (b) Let $G$ be a set of homogeneous polynomials generators\footnotemark[1] and let $f\in I$. Write $f$ as
+        \begin{equation*}
+            f = \sum^{m}_{i=1} h_ig_i
+        \end{equation*}
+        for some $h_1,\ldots,h_m\in K\left[ \vec{x} \right], g_1,\ldots,g_m\in G$. Let $d_i = \deg\left( g_i \right)$ for all $i$. Then
+        \begin{equation*}
+            f_j = \sum^{m}_{i=1} h_{i,j}g_i,
+        \end{equation*}
+        where $h_{i,j}$ is the homogeneous degree $j-d_i$ part of $h_i$, so $f_j\in I$.
+
+        (b) $\implies$ (c) Given any $f\in I$, by assumption, $f_j\in I$, so $f_j\in I\cap S_j = I_j$. This means
+        \begin{equation*}
+            I = \sum^{\infty}_{j=0} I_j = \bigoplus^{\infty}_{j=0} I_j.
+        \end{equation*}
+
+        (c) $\implies$ (b) This is by the definition of direct sum.
+
+        (b) $\implies$ (a) Let $G$ be a set of generators for $I$. Take all the homogeneous components of all polynomials of $G$:
+        \begin{equation*}
+            F = \left\lbrace g_j : g\in G, j\in\N\cup\left\lbrace 0 \right\rbrace \right\rbrace,
+        \end{equation*}
+        which is a set of homogeneous generators for $I$.
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{i.e. Every $g\in G$ is homogeneous and $\left< G \right> = I$}
+        \end{minipage}
+    \end{proof}
+    
+    \begin{definition}{\textbf{Quotient Ring}}
+        Let $I\subseteq K\left[ \vec{x} \right]$ be an ideal. Given any $f\in K\left[ \vec{x} \right]$, the \emph{residue class} of $f$ modulo $I$ is the set
+        \begin{equation*}
+            f+I = \left\lbrace f+i: i\in I \right\rbrace.
+        \end{equation*}
+        Then there is an equivalence relation $\sim$ on $K\left[ \vec{x} \right]$ by
+        \begin{equation*}
+            f\sim g \iff f+I = g+I.
+        \end{equation*}
+        The \emph{quotient ring} $S /I$ is the ring structure on the set of all residue classes $S /\sim$, with addition
+        \begin{equation*}
+            \left( f+I \right) + \left( g+I \right) = \left( f+g \right) + I
+        \end{equation*}
+        and multiplication
+        \begin{equation*}
+            \left( f+I \right)\left( g+I \right) = fg+I.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{prop}{}
+        Let $I$ be an ideal of $K\left[ \vec{x} \right]$ and let $f,g\in K\left[ \vec{x} \right]$. Then
+        \begin{equation*}
+            f+I = g+I \iff f-g\in I.
+        \end{equation*}
+    \end{prop}
+
+    \begin{proof}
+        ($\impliedby$) If $f-g\in I$, then $f=g+i$ for some $i\in I$, which means
+        \begin{equation*}
+            f+I = \left( g+i \right)+I = g+I.
+        \end{equation*}
+
+        ($\implies$) If $f+I=g+I$, then for any $i\in I$, $f+i\in g+I$. In particular, there is $j\in I$ such that $f+j=g$, so that $f-g = j\in I$.
+    \end{proof}
+
+    \np Normally, when we give a definition like Def'n 1.8, we should check that $K\left[ \vec{x} \right] /I$ satisfy all the ring axioms. Instead, we only check the following.
+    
+    \begin{prop}{Multiplication Is Well-defined on Quotient Rings}
+        Let $I\subseteq K\left[ \vec{x} \right]$ be an ideal. If $f+I=\hat{f}+I, g+I=\hat{g}+I$, then $fg+I = \hat{f}\hat{g}+I$.
+    \end{prop}
+
+    \begin{proof}
+        We have $\hat{f}=f+i, \hat{g}=g+j$, so that
+        \begin{equation*}
+            \hat{f}\hat{g} = \left( f+i \right)\left( g+j \right) = fg+\underbrace{ig}_{\in I}+\underbrace{fj}_{\in I}+\underbrace{ij}_{\in I} \in fg+I.
+        \end{equation*}
+    \end{proof}
+    
+    \begin{prop}{Operations on Ideals}
+        Let $I,J\subseteq K\left[ \vec{x} \right]$ be ideals. Then
+        \begin{enumerate}
+            \item $I+J = \left\lbrace f+g:f\in I, g\in J \right\rbrace$; and
+            \item $I\cap J$
+        \end{enumerate}
+        are ideals.
+    \end{prop}
+
+    \rruleline
+
+    \np It turns out that $\left\lbrace fg:f\in I, g\in J \right\rbrace$ is \textit{not} an ideal. Hence we define the \textit{product ideal} as follows.
+
+    \begin{definition}{\textbf{Product Ideal}, \textbf{Colon Ideal} of Two Ideals}
+        Let $I,J$ be ideals. We define the \emph{product ideal} of $I,J$, denoted as $IJ$, to be
+        \begin{equation*}
+            IJ = \left< fg: f\in I, g\in J \right> .
+        \end{equation*}
+
+        We also define the \emph{colon ideal} of $I,J$, denoted as $I:J$, as
+        \begin{equation*}
+            I:J = \left\lbrace f\in S: \forall j\in J\left[ fj\in I \right] \right\rbrace = \left\lbrace f\in S: fJ\subseteq I \right\rbrace.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{prop}{}
+        Let $I,J$ be ideals of $K\left[ \vec{x} \right]$. Then
+        \begin{equation*}
+            IJ \subseteq I\cap J.
+        \end{equation*}
+    \end{prop}
+    
+    \begin{proof}
+        Given any $f\in I, g\in J$, since ideals are closed under multiplication, $fg\in I$. A symmetric argument shows $fg\in J$. This means $fg\in I\cap J$.
+
+        Since any $k\in IJ$ can be written as
+        \begin{equation*}
+            \sum^{n}_{i=0} h_i\overbrace{\underbrace{f_i}_{\in I}\underbrace{g_i}_{\in J}}^{I\cap J},
+        \end{equation*}
+        it follows $k\in I\cap J$.
+
+        Thus $IJ \subseteq I\cap J$.
+    \end{proof}
+    
+    \begin{example}{}
+        Let $S=\Q\left[ x \right]$, $I = \left< x^{3}+6x^{2}+12x+8 \right>, J = \left< x^{2}+x-2 \right>$. By factoring,
+        \begin{equation*}
+            I = \left< \left( x+2 \right)^{3} \right>, J = \left< \left( x+2 \right)\left( x-1 \right) \right>.  
+        \end{equation*}
+        This means
+        \begin{enumerate}
+            \item $I\cap J = \left< \left( x+2 \right)^{3}\left( x-1 \right) \right>$, the ideal generated by the \textit{lcm} of the generators of $I,J$;
+
+            \item $I+J = \left< \left( x+2 \right) \right>$, the ideal generated by the \textit{gcd} of the generators;
+
+            \item $IJ = \left< \left( x+2 \right)^{4}\left( x-1 \right) \right>$; and
+            \item $I:J = \left< \left( x+2 \right)^{2} \right>$. 
+        \end{enumerate}
+    \end{example}
+
+    \rruleline
+
+    \begin{definition}{\textbf{Radical} of an Ideal}
+        Let $I$ be an ideal. The \emph{radical} of $I$ is
+        \begin{equation*}
+            \sqrt{I} = \left\lbrace f\in S: \exists k\in\N\left[ f^k\in I \right] \right\rbrace.
+        \end{equation*}
+    \end{definition}
+
+    \begin{example}{Examples of Radicals of Ideals}
+        Consider $I,J$ from Example 1.2. Then
+        \begin{equation*}
+            \sqrt{\left< I \right> } = \left< x+2 \right>, \sqrt{J} = \left< \left( x+2 \right)\left( x-1 \right) \right>.  
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \begin{prop}{Every Radical of an Ideal Is an Ideal}
+        Let $I$ be an ideal. Then $\sqrt{I}$ is also an ideal.
+    \end{prop}
+
+    \begin{proof}
+        Let $f,g\in\sqrt{I}$ and let $p\in S$. We have $f^k\in I$ and $g^l\in I$ for some $k,l\in\N$.
+
+        Now
+        \begin{equation*}
+            \left( fp \right)^k = \underbrace{f^k}_{\in I}p^k \in I,
+        \end{equation*}
+        so that $fp\in \sqrt{I}$.
+
+        Also,
+        \begin{equation*}
+            \left( f+g \right)^{k+l} = \sum^{k+l}_{i=0} \underbrace{\binom{}{}}_{\clap{\text{\footnotesize some binomial coefficient}}} f^ig^{k+l-i} \in I,
+        \end{equation*}
+        since given any $i\in\left\lbrace 0,\ldots,k+l \right\rbrace$, $i\geq l$ so that $f^i\in I$ or $k+l-i\geq k$ so that $g^{k+l-i}\in I$. Thus $f+g\in\sqrt{I}$.
+    \end{proof}
+
+    \begin{definition}{\textbf{Radical} Ideal}
+        We say $I$ is an \emph{radical} ideal if $I=\sqrt{I}$.
+    \end{definition}
+
+    \begin{prop}{}
+        For all ideal $I$, $\sqrt{\sqrt{I}} = \sqrt{I}$. 
+    \end{prop}
+
+    \begin{proof}
+        Clearly $\sqrt{\sqrt{I}} \supseteq \sqrt{I}$.
+
+        Let $f\in \sqrt{\sqrt{I}}$. Then $f^k\in \sqrt{I}$ for some $k\in\N$. This implies there is $l\in\N$ such that $f^{kl} = \left( f^k \right)^l\in I$. Hence $f\in\sqrt{I}$.
+    \end{proof}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+\end{document}

@@ -1,0 +1,421 @@
+\documentclass[11pt]{article}
+
+%% ========================================================
+%% package imports
+
+\usepackage{infimum}
+
+%% ========================================================
+%% document
+
+
+\begin{document}
+
+    \section{Polynomial Rings and Ideals}
+
+    \subsection{Preliminaries}
+
+    \begin{theorem}{Algebraic Closure of a Field}
+    \end{theorem}
+
+    \rruleline
+
+    \begin{prop}{}
+        Let $S=K\left[ \vec{x} \right]$ and let
+        \begin{equation*}
+            S_i = \left\lbrace p\in S: \deg\left( p \right) = i, \text{$p$ is homogeneous} \right\rbrace, \hspace{1cm}\forall i\in\N\cup\left\lbrace 0 \right\rbrace.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \phantom{S = \bigoplus^{\infty}_{i=0}S_i}
+        \end{equation*}
+        as a vector space.
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{Alternative Definition of $\left< F \right>$}
+        For any $F\subseteq K\left[ \vec{x} \right]$
+        \begin{equation*}
+            \left< F \right> = \phantom{\left\lbrace \sum^{n}_{j=1} p_jf_j : n\geq 1, p_j\in K\left[ \vec{x} \right], f_j\in F \right\rbrace}
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{Characterization of Homogeneous Ideals}
+        Let $S = K\left[ \vec{x} \right]$ and let $I\subseteq S$ be an ideal. The following are equivalent.
+        \begin{enumerate}
+            \item $I$ is homogeneous.
+            \item 
+            \item 
+        \end{enumerate}
+    \end{prop}
+
+    \rruleline
+    
+    \begin{prop}{Operations on Ideals}
+        Let $I,J\subseteq K\left[ \vec{x} \right]$ be ideals. Which are ideals?
+        \begin{enumerate}
+            \item $\left\lbrace f+g:f\in I, g\in J \right\rbrace$.
+            \item $I\cap J$.
+            \item $\left\lbrace fg: f\in I, g\in J \right\rbrace$.
+            \item $\left\lbrace f\in S: fJ\subseteq I \right\rbrace$.
+        \end{enumerate}
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{}
+        Let $I,J$ be ideals of $K\left[ \vec{x} \right]$. Then
+        \begin{equation*}
+            IJ \phantom{\subseteq} I\cap J.
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{}
+        Let $I$ be an ideal. Then $\sqrt{I}$ is
+    \end{prop}
+
+    \rruleline
+
+    \begin{prop}{}
+        For all ideal $I$, $\sqrt{\sqrt{I}} =$ 
+    \end{prop}
+
+    \rruleline
+
+    \section{Algebraic Geometry}
+
+    \subsection{Introduction}
+
+    \begin{lemma}{}
+        Let $I = \left< F \right>$. Then $V\left( F \right) =$
+    \end{lemma}
+
+    \rruleline
+
+    \subsection{Schemes}
+
+    \begin{lemma}{}
+        Let $I$ be an ideal. Then
+        \begin{equation*}
+            V\left( I \right) = \phantom{V\left( \sqrt{I} \right)}
+        \end{equation*}
+    \end{lemma}
+
+    \rruleline
+    
+    \begin{lemma}{}
+        Every radical ideal of a variety is 
+    \end{lemma}
+
+    \rruleline
+
+    \begin{lemma}{}
+        Given $F\subseteq K\left[ \vec{x} \right]$,
+        \begin{equation*}
+            \sqrt{\left< F \right> } \phantom{\subseteq} I\left( V\left( F \right) \right).
+        \end{equation*}
+        Consequently, $\left< F \right>$
+    \end{lemma}
+
+    \rruleline
+
+    \begin{theorem}{Nullstellensatz}
+        Suppose $K$ is algebraically closed. Then for any $F\subseteq K\left[ \vec{x} \right]$, 
+        \begin{equation*}
+            I\left( V\left( F \right) \right) = \phantom{\sqrt{\left< F \right> }}
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+
+    \begin{theorem}{}
+        There is a bijection
+        \begin{equation*}
+            \text{ideals of $K\left[ \vec{x} \right]$} \leftrightarrow
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+    
+    \subsection{Monomial Ideals}
+    
+    \begin{prop}{Characterization of Monomial Ideals}
+        Let $I\subseteq K\left[ \vec{x} \right]$ be an ideal. The following are equivalent.
+        \begin{enumerate}
+            \item $I$ is a monomial ideal.
+            \item 
+        \end{enumerate}
+    \end{prop}
+
+    \rruleline
+    
+    \begin{cor}{}
+        Let $I$ be a monomial ideal and let $M\subseteq I$ be a set of monomials. Then
+        \begin{equation*}
+            \left< M \right> = I \iff \phantom{\text{for every monomial $v\in I$, there exists $m\in M$ such that $m|v$.}}
+        \end{equation*}
+    \end{cor}	
+
+    \rruleline
+
+    \begin{theorem}{Dickson's Lemma}
+        Let $S\subseteq\N^n$. Then
+    \end{theorem}
+    
+    \rruleline
+
+    \begin{cor}{}
+        Let $I$ be a monomial ideal and let $M$ be a generating set ofmonomials. Then 
+    \end{cor}	
+
+    \rruleline
+    
+    \begin{prop}{}
+        Every monomial ideal $I$ 
+    \end{prop}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Every ascending chain $\left( I_{n} \right)^{\infty}_{n=1}$ of monomial ideals 
+    \end{prop}
+
+    \rruleline
+    
+    \subsection{Operations on Monomial Ideals}
+    
+    \begin{prop}{}
+        Let $I,J$ be monomial ideals. Then $I\cap J$ is monomial and
+        \begin{equation*}
+            I\cap J = \phantom{\left< \lcm\left( u,v \right): u\in G\left( I \right), v\in G\left( J \right) \right>}
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Let $I,J$ be monomial ideals. Then $I:J$ is monomial with
+        \begin{equation*}
+            I:J = \phantom{\bigcap^{}_{v\in G\left( J \right)} I:\left< v \right>}
+        \end{equation*}
+        and
+        \begin{equation*}
+            I:\left< v \right> = \phantom{\left< \frac{u}{\gcd\left( u,v \right)}: u\in G\left( I \right) \right>.}
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Let $I\subseteq S$ be an ideal. Then
+        \begin{equation*}
+            \text{$I$ is prime} \iff \phantom{\text{$S /I$ is a domain}}
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Let $I$ be a squarefree monomial ideal. Then $I$ is 
+    \end{prop}
+
+    \begin{cor}{}
+        Let $I$ be a monomial ideal. Then
+        \begin{equation*}
+            \text{$I$ is radical}\iff\phantom{\text{$I$ is squarefree}}
+        \end{equation*}
+    \end{cor}	
+
+    \rruleline
+    
+    \begin{theorem}{}
+        Let $I$ be monomial. Then
+        \begin{equation*}
+            \sqrt{I} = \phantom{\left< \sqrt{u}:u\in G\left( I \right) \right>}
+        \end{equation*}
+        where $\sqrt{u}$ is obtained by re-writing every nonzero exponent of $u$ to $1$.
+    \end{theorem}
+
+    \rruleline
+
+    \subsection{Grobner Bases}
+    
+    \begin{prop}{}
+        Let $<$ be a monomial order on $\N^n$. Then $<$ can be extended to a partial order $\leq$ such that
+        \begin{enumerate}
+            \item 
+            \item 
+        \end{enumerate}
+    \end{prop}
+    
+    \rruleline
+
+    \begin{theorem}{Macaulay (1927)}
+        Let $I\subseteq S=K\left[ \vec{x} \right]$ be an ideal. Then 
+    \end{theorem}
+
+    \rruleline
+    
+    \begin{cor}{}
+        If $I$ is a homogeneous ideal, then
+        \begin{equation*}
+            S /I = \phantom{\bigoplus^{\infty}_{k=0} S_k /I_k}
+        \end{equation*}
+        is \phantom{graded} and
+        \begin{equation*}
+            \dim\left( S /I \right)_k = \phantom{\dim\left( S /\initial\left( I \right) \right)_k}
+        \end{equation*}
+    \end{cor}	
+    
+    \rruleline
+    
+    \begin{cor}{}
+        If $I$ is a homogeneous ideal, then
+        \begin{equation*}
+            H\left( S /I, t \right) = \phantom{H\left( S /\initial\left( I \right), t \right)}
+        \end{equation*}
+    \end{cor}	
+    
+    \rruleline
+    
+    \begin{theorem}{}
+        An ideal $I$ has only \phantom{finitely many} initial ideals.
+    \end{theorem}
+    
+    \begin{theorem}{Hilbert Basis}
+        Every ideal $I\subseteq K\left[ \vec{x} \right]$ is \phantom{finitely generated}. Precisely, if $g_1,\ldots,g_m\in K\left[ \vec{x} \right]$ form a Grobner basis of $I$, then 
+        \begin{equation*}
+        \end{equation*}
+    \end{theorem}
+    
+    \rruleline
+    
+    \begin{cor}{}
+        Let
+        \begin{equation*}
+            I_1\subseteq I_2\subseteq\cdots
+        \end{equation*}
+        be an ascending chain of ideals in $S$. Then
+    \end{cor}	
+    
+    \rruleline
+
+    \subsection{Division Algorithm}
+
+    \begin{theorem}{Division Algorithm for Multivariate Polynomials}
+        Let $f\in S=K\left[ \vec{x} \right]$ and let $g_1,\ldots,g_m\in S$ be nonzero. The division algorithm produces polynomials $q_1,\ldots,q_m,r\in S$ such that
+        \begin{enumerate}
+            \item 
+            \item 
+            \item 
+        \end{enumerate}
+    \end{theorem}
+
+    \rruleline
+
+    \begin{theorem}{}
+        Fix a monomial order. Suppose $\left\lbrace g_1,\ldots,g_m \right\rbrace$ is a Grobner basis for a monomial ideal $I$. Then every $f\in S$ has 
+        \phantom{a unique remainder on division by $g_1,\ldots,g_m$}
+    \end{theorem}
+
+    \rruleline
+    
+    \begin{cor}{Algorithm for Ideal Membership}
+        Let $\left\lbrace g_1,\ldots,g_m \right\rbrace$ be a Grobner basis for a monomial ideal $I$ and let $f\in S$. Then
+        \begin{equation*}
+            f\in I\iff\phantom{\text{$f$ has remainder $0$ on division by $g_1,\ldots,g_m$}}
+        \end{equation*}
+    \end{cor}	
+
+    \rruleline
+    
+    \subsection{Buchberger's Algorithm for Finding a Grobner Basis}
+    
+    \begin{algorithm}{Buchberger's Algorithm}
+        \INPUT{monomial ideal $I$ and a generating set $F = \left\lbrace f_1,\ldots,f_k \right\rbrace$}
+        \FOR{}
+        \DO{}
+        \FOR{}
+        \DO{}
+        \IF{}
+        \DO{}
+        \DO{}
+        \DONE
+        \DONE
+        \DONE
+        \DO{}
+    \end{algorithm}
+    
+    \begin{prop}{}
+        Buchberger's algorithm terminates in \phantom{finite} time.
+    \end{prop}
+
+    \rruleline
+
+    \begin{theorem}{}
+        Fix a monomial order and let $I = \left< g_1,\ldots,g_m \right>$ with each $g_i\neq 0$. The following are equivalent.
+        \begin{enumerate}
+            \item $\left\lbrace g_1,\ldots,g_m \right\rbrace$ is a Grobner basis for $I$.
+            \item
+        \end{enumerate}
+    \end{theorem}
+
+    \rruleline
+
+    \begin{lemma}{}
+        Suppose $\gcd\left( \initial\left( f \right),\initial\left( g \right) \right)=1$. Then $S\left( f,g \right)$ 
+    \end{lemma}
+
+    \rruleline
+    
+    \begin{theorem}{Hochster-Eagen}
+        $D_r\left( m,n \right)$ is radical.
+    \end{theorem}
+
+    \rruleline
+
+    \subsection{Reduced Grobner Bases}
+    
+    \begin{theorem}{}
+        Let $I$ be an ideal and fix a monomial order. Then 
+    \end{theorem}
+    
+    \rruleline
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

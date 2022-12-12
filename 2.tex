@@ -1,0 +1,1545 @@
+\documentclass[co439]{subfiles}
+
+%% ========================================================
+%% document
+
+\begin{document}
+
+    \section{Algebraic Geometry}
+
+    Algebraic geometry allows us to turn equations into pictures which gives visual intuitions.
+
+    \subsection{Introduction}
+
+    Here is a general setting for algebriac geometry. We fix
+    \begin{equation*}
+        S = K\left[ \vec{x} \right]
+    \end{equation*}
+
+    \begin{definition}{\textbf{Vanishing Locus} of a Subset of a Polynomial Ring}
+        For any $F\subseteq S$, we define a \emph{variety} $V\left( F \right)$ (or $V_K\left( F \right)$ when we want to specify the field $K$) by
+        \begin{equation*}
+            V\left( F \right) = \left\lbrace \vec{p}\in K^n: \forall f\in F\left[ f\left( \vec{p} \right) = 0 \right] \right\rbrace,
+        \end{equation*}
+        called the \emph{vanishing locus} of $F$.
+    \end{definition}
+    
+    \begin{example}{}
+        Consider $K=\R$. Then 
+        \begin{equation*}
+            V\left( x^{2}+y^{2}-1 \right) = \left\lbrace \left( p_1,p_2 \right)\in\R^{2}: p_1^{2}+p_2^{2}=1 \right\rbrace,
+        \end{equation*}
+        which is the set of points on the unit circle.
+    \end{example}
+    
+    \rruleline
+    
+    \begin{example}{}
+        Consider $K=\R, S=\R\left[ x,y,z \right]$. Then by inspection,
+        \begin{equation*}
+            \left( 0,0,0 \right), \left( 1,1,1 \right) \in V\left( xy-z, yz-x, xz-y \right) .
+        \end{equation*}
+        Note that, when at least one of $x,y,z$ is $0$, then the others must be also $0$.
+
+        If two variables have absolute value larger than $1$, say $\left| x \right|, \left| y \right|>1$, then since $xy-z=0$, we see that $z>\left| x \right|\left| y \right|$. But this makes it impossible to satisfy $yz-x=0$.
+
+        Similar problem arises when $\left| x \right|,\left| y \right|<1$ or $\left| x \right|>1, \left| y \right|<1$.
+
+        So the conclusion is that, other than $\left( 0,0,0 \right), \left( 1,1,1 \right)$, every point $\left( p_1,p_2,p_3 \right)$ in the variety must have that: $\left| p_1 \right|=\left| p_2 \right|=\left| p_3 \right|=1$. By checking all $8$ possibilities (or $7$ if we discard $\left( 1,1,1 \right)$), we see that 
+        \begin{equation*}
+            \left( -1,-1,1 \right),\left( -1,1,-1 \right),\left( 1,-1,-1 \right)\in V\left( xy-z,yz-x,xz-y \right).
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{}
+        Note that, when $K=\R, S= K\left[ x,y \right]$,
+        \begin{equation*}
+            V\left( 1 \right) = \emptyset.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{Sadnesses}
+        \vspace{-11pt}
+        \begin{enumerate}
+            \item Consider $K=\R,S=K\left[ x,y \right]$. Then
+                \begin{equation*}
+                    V\left( x^{2}+y^{2}+1 \right) = \emptyset.
+                \end{equation*}
+                Hence, in some sense, \textit{some information is lost}. \hfill\textit{sadness 1}
+
+            \item Consider $K=\R,S=K\left[ x \right]$. Then $V\left( x \right) = \left\lbrace 0 \right\rbrace = V\left( x^{2} \right)$. So two different polynomials give the same variety. \hfill\textit{sadness 2}
+        \end{enumerate}
+        We are going to fix both \textit{sadness} simultaneously.
+    \end{example}
+
+    \rruleline
+
+    \clearpage
+    
+    \begin{lemma}{}
+        Let $I = \left< F \right>$. Then $V\left( F \right) = V\left( I \right)$. 
+    \end{lemma}
+
+    \begin{proof}
+        Suppose $p\in V\left( I \right)$. Then $g\left( p \right) = 0$ for all $g\in I$. In particular, $f\left( p \right)=0$ for all $f\in F$, so $V\left( I \right)\subseteq V\left( F \right)$.
+
+        Conversely, suppose $p\in V\left( F \right)$. Then $f\left( p \right) = 0$ for all $f\in F$. Let $g\in I$. Then
+        \begin{equation*}
+            g = \sum^{n}_{i=0} h_if_i
+        \end{equation*}
+        for some $f_0,\ldots,f_n\in F, h_0,\ldots,h_n\in S$. So
+        \begin{equation*}
+            g\left( p \right) = \sum^{n}_{i=0} \left( h_if_i \right)\left( p \right) = \sum^{n}_{i_0} h_i\left( p \right)\underbrace{f_i\left( p \right)}_{=0} = 0.
+        \end{equation*}
+        Hence $V\left( F \right)\subseteq V\left( I \right)$.
+    \end{proof}
+    
+    \subsection{Schemes}
+
+    \begin{lemma}{}
+        Let $I$ be an ideal. Then
+        \begin{equation*}
+            V\left( I \right) = V\left( \sqrt{I} \right).
+        \end{equation*}
+    \end{lemma}
+    
+    \begin{proof}
+        Suppose $p\in V\left( \sqrt{I} \right)$. Then $f\left( p \right) = 0$ for all $p\in \sqrt{I}$. But $I\subseteq\sqrt{I}$, so $f\left( p \right) = 0$ for all $f\in I$. Hence $p\in V\left( I \right)$.
+
+        Conversely, suppose $p\in V\left( I \right)$. Then $f\left( p \right) = 0$ for all $f\in I$. Let $g\in \sqrt{I}$. Then $g^k\in I$ for some $k\in\N$, which means $g^k\left( p \right) = 0$. Since a field does not have a zero divisor, it follows $g\left( p \right) = 0$. This means $p\in V\left( \sqrt{I} \right)$.
+    \end{proof}
+
+    \np To fix this issue that \textit{turning ideals in to variety} looses information, we are going to introduce the notion of \textit{scheme}.
+    
+    \begin{definition}{\textbf{Radical Ideal} of a Variety}
+        Let $X = V\left( F \right)$ be a variety. Then the \emph{radical ideal} of $X$ is the set
+        \begin{equation*}
+            I\left( X \right) = \left\lbrace f\in K\left[ \vec{x} \right] : \forall x\in X\left[ f\left( x \right)=0 \right] \right\rbrace.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{lemma}{}
+        Every radical ideal of a variety is a radical ideal.
+    \end{lemma}
+
+    \begin{proof}[Proof Sketch]
+        Any $K\left[ \vec{x} \right]$-linear combination of $0$ is again $0$ and any (positive integer) power of $0$ is also $0$.
+    \end{proof}
+
+    \begin{lemma}{}
+        Given $F\subseteq K\left[ \vec{x} \right]$,
+        \begin{equation*}
+            \sqrt{\left< F \right> } \subseteq I\left( V\left( F \right) \right).
+        \end{equation*}
+        Consequently, $\left< F \right> \subseteq I\left( V\left( F \right) \right)$. 
+    \end{lemma}
+
+    \rruleline
+
+    \begin{theorem}{Nullstellensatz}
+        Suppose $K$ is algebraically closed. Then for any $F\subseteq K\left[ \vec{x} \right]$, $I\left( V\left( F \right) \right) = \sqrt{\left< F \right> }$.
+    \end{theorem}
+
+    \rruleline
+
+    \np Let $F\subseteq K\left[ \vec{x} \right]$. Then for any field extension $K'\supseteq K$, it makes sense to consider $V_{K'}\left( F \right)$. In fact, for any commutative ring $R\supseteq K$, we can still define
+    \begin{equation*}Vpar
+        V_R\left( F \right) = \left\lbrace \vec{p}\in R^n: \forall f\in F\left[ f\left( \vec{p} \right)=0 \right] \right\rbrace.
+    \end{equation*}
+
+    \begin{example}{$V_{\R}\left( x^{2}+y^{2}+1 \right)$}
+        We have
+        \begin{equation*}
+            V_{\R}\left( x^{2}+y^{2}+1 \right) = \emptyset = V_{\R}\left( 1 \right)
+        \end{equation*}
+        which is bad, but
+        \begin{equation*}
+            V_{\CC}\left( x^{2}+y^{2}+1 \right) = \text{a conic section}
+        \end{equation*}
+        and
+        \begin{equation*}
+            V_{\CC}\left( 1 \right) = \emptyset.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{}
+        We have
+        \begin{equation*}
+            V_{\R}\left( x \right) = \left\lbrace 0 \right\rbrace = V_{\R}\left( x^{2} \right).
+        \end{equation*}
+        For this time, we cannot solve this problem by entering the world of complex numbers, as
+        \begin{equation*}
+            V_{\CC}\left( x \right) = \left\lbrace 0 \right\rbrace = V_{\CC}\left( x^{2} \right).
+        \end{equation*}
+        But we can use commutative rings instead. Let $R = \R\left[ \epsilon \right] /\left< \epsilon^{2} \right> = \left\lbrace a+b\epsilon+\left< \epsilon^{2} \right> : a,b\in\R  \right\rbrace$.\footnotemark[1] This makes:
+        \begin{equation*}
+            V_R\left( x \right) = \left\lbrace 0+\left< \epsilon^{2} \right>  \right\rbrace \neq \left\lbrace b\epsilon+\left< \epsilon^{2} \right>  \right\rbrace = V_R\left( x^{2} \right).
+        \end{equation*}
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{The intution behind quotienting with $\left< \epsilon^{2} \right>$ is that, $\epsilon$ is too small such that when it is squared, it vanishes. Of course such an element does not exist in $\R$, so we just throw in one.}
+        \end{minipage}
+    \end{example}
+
+    \rruleline
+
+    \begin{definition}{\textbf{Scheme} of a Set of Polynomials}
+        For every $F\subseteq K\left[ \vec{x} \right]$, we define the \emph{scheme} of $F$, denoted as $V_{\infty}\left( F \right)$, by
+        \begin{equation*}
+            V_{\infty}\left( F \right) = \left\lbrace V_R\left( F \right) : \text{$R\supseteq K$ is a ring extension of $K$} \right\rbrace.
+        \end{equation*}
+    \end{definition}
+    
+    \begin{theorem}{}
+        There is a bijection
+        \begin{equation*}
+            \text{ideals of $K\left[ \vec{x} \right]$} \leftrightarrow \text{schemes}.
+        \end{equation*}
+    \end{theorem}
+
+    \rruleline
+    
+    \np Let $I,J$ be ideals.
+    \begin{enumerate}
+        \item $V_{\infty}\left( I+J \right) = V_{\infty}\left( I \right) \cap V_{\infty}\left( J \right)$.
+        \item $V_{\infty}\left( I\cap J \right) = V_{\infty}\left( I \right) \cup V_{\infty}\left( J \right)$.
+        \item $V_{\infty}\left( IJ \right) = V_{\infty}\left( I\cap J \right)$ with possibly extra infinitesimal fuzz (i.e. $\epsilon$ in Example 2.6).
+        \item $V_{\infty}\left( I:J \right) = V_{\infty}\left( I \right) \setminus V_{\infty}\left( J \right)$ and then patch the holes.
+    \end{enumerate}
+    
+    \begin{example}{}
+        Let $I = \left< x^{2}-y \right>, J = \left< y-x-2 \right>$. Then
+    \end{example}
+
+    \rruleline
+
+    \subsection{Monomial Ideals}
+    
+    \begin{definition}{\textbf{Monomial Ideal}}
+        A \emph{monomial ideal} in $K\left[ \vec{x} \right]$ is an ideal generated by monomials.
+    \end{definition}
+
+    \np Monomial ideals are easy to understand.
+
+    \begin{example}{Monomials Are Easy}
+        If $u=\vec{x}^{\vec{a}}, v=\vec{x}^{\vec{b}}$, then
+        \begin{equation*}
+            u | v \iff \forall i\left[ a_i\leq b_i \right].
+        \end{equation*}
+        Moreover,
+        \begin{equation*}
+            \gcd\left( u,v \right) = \vec{x}^{\min\left( \vec{a},\vec{b} \right)},
+        \end{equation*}
+        and
+        \begin{equation*}
+            \lcm\left( u,v \right) = \vec{x}^{\max\left( \vec{a},\vec{b} \right)}.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+    
+    \begin{prop}{Characterization of Monomial Ideals}
+        Let $I\subseteq K\left[ \vec{x} \right]$ be an ideal. The following are equivalent.
+        \begin{enumerate}
+            \item $I$ is a monomial ideal.
+            \item For every $f\in I$, every monomial components are in $I$. That is, $\supp\left( f \right)\subseteq I$.
+        \end{enumerate}
+    \end{prop}
+    
+    \begin{proof}
+        (a) $\implies$ (b) Let $M$ be a set of monomial generators for $I$: $I=\left< M \right>$. Let $f\in I$. Write
+        \begin{equation*}
+            f = \sum^{}_{m\in M} c_mm
+        \end{equation*}
+        for some $\left\lbrace c_m \right\rbrace^{}_{m\in M}\subseteq K\left[ \vec{x} \right]$. Hence
+        \begin{equation*}
+            \supp\left( f \right) \subseteq \bigcup^{}_{m\in M} \supp\left( c_mm \right).
+        \end{equation*}
+        Suppose $u\in\supp\left( f \right)$. Then
+        \begin{equation*}
+            u \in \supp\left( c_mm \right)
+        \end{equation*}
+        for some $m\in M$. But each $v\in\supp\left( c_mm \right)$ looks like
+        \begin{equation*}
+            v = wm
+        \end{equation*}
+        for some monomial $w$. Hence $u=wm$ for some monomial $w$, so that $u\in\left< m \right> \subseteq \left< M \right> = I$.  
+
+        (b)$\implies$(a) Let $G$ be a generating set for $I$. Then by letting $M = \bigcup^{}_{g\in G}\supp\left( g \right)\subseteq I$, we have $\left< M \right> = I$. Hence $M$ is a generating set of monomials. 
+    \end{proof}
+
+    \begin{cor}{}
+        Let $I$ be a monomial ideal and let $M\subseteq I$ be a set of monomials. Then
+        \begin{equation*}
+            \left< M \right> = I \iff \text{for every monomial $v\in I$, there exists $m\in M$ such that $m|v$.} 
+        \end{equation*}
+    \end{cor}	
+
+    \begin{proof}
+        ($\implies$) Suppose $\left< M \right> = I$ and let $v\in I$ be a monomial. Then
+        \begin{equation*}
+            v = \sum^{}_{m\in M} c_mm
+        \end{equation*}
+        for some $\left\lbrace c_m \right\rbrace^{}_{m\in M}$, so
+        \begin{equation*}
+            v \in \bigcup^{}_{m\in M}\supp\left( c_mm \right).
+        \end{equation*}
+        This means
+        \begin{equation*}
+            v \in \supp\left( c_mm \right)
+        \end{equation*}
+        for some $m\in\ M$. This means $v$ is a multiple of $m$. Thus $m|v$.
+
+        ($\impliedby$) Suppose that for every monomial $v\in I$, there exists $m\in M$ such that $m|v$. Let $f\in I$. Since $I$ is a monomial ideal, $\supp\left( f \right)\subseteq I$. Say
+        \begin{equation*}
+            \supp\left( f \right) = \left\lbrace v_1,\ldots,v_k \right\rbrace
+        \end{equation*}
+        so that
+        \begin{equation*}
+            f = \sum^{k}_{i=1} c_iv_i
+        \end{equation*}
+        for some $c_1,\ldots,c_k\in K$. By assumption, we have monomials $m_1,\ldots,m_k\in M$ and $w_1,\ldots,w_k\in K\left[ \vec{x} \right]$ such that $v_i=m_iw_i$. Then
+        \begin{equation*}
+            f = \sum^{k}_{i=1} c_im_iw_i
+        \end{equation*}
+        so $f\in\left< M \right>$. Thus $\left< M \right> = I$.  
+    \end{proof}
+
+    \begin{definition}{\textbf{Hyperplane} of a Vector Space}
+        A \emph{hyperplane} is a codimension $1$ vecor subspace.
+
+        We say a hyperplane is \emph{coordinate} if it is spanned by axes.
+    \end{definition}
+
+    \begin{example}{}
+        Let $S = K\left[ x,y,z,w \right]$. Then
+        \begin{equation*}
+            \begin{aligned}
+                V_{\infty}\left( x \right) & = \text{$y,z,w$-coordinate hyperplane} = \text{$x^{\perp}$-coordinate hyperplane}, \\
+                V_{\infty}\left( xy \right) & = V_{\infty}\left( x \right)\cup V_{\infty}\left( y \right) = x^{\perp}\cup y^{\perp}, \\
+                V_{\infty}\left( x \right) & = x^{\perp}\text{ (but fuzzy -- we have a \textit{very small} thickness)}, \\
+                V_{\infty}\left( x^{2}y \right) & = \left( \text{fuzzy }x^{\perp} \right)\cup y^{\perp}, \\
+                V_{\infty}\left( xy^{3} \right) & = x^{\perp}\cup\left( \text{very fuzzy }y^{\perp} \right)
+            \end{aligned} 
+        \end{equation*}
+        In general,
+        \begin{equation*}
+            V_{\infty}\left( \text{monomial} \right) = \text{union of fuzzy coordinate hyperplanes}.
+        \end{equation*}
+        More precisely, if the monomial is $\vec{x}^{\vec{a}}$, then
+        \begin{equation*}
+            \begin{aligned}
+                \text{$a_i>0$}&\iff\text{$x_i^{\perp}$ appears}, \\
+                a_i&\longleftrightarrow\text{fuzziness of $x_i^{\perp}$}.
+            \end{aligned} 
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+    
+    \begin{example}{}
+        In $K\left[ x,y,z,w \right]$,
+        \begin{equation*}
+            V\left( xy,xz \right) = V\left( \left< xy \right>+\left< xz \right>   \right) = V\left( xy \right)\cap V\left( xz \right) = \left( x^{\perp}\cup y^{\perp} \right)\cap \left( x^{\perp}\cup z^{\perp} \right) = x^{\perp}\cup\left( y^{\perp}\cap z^{\perp} \right) ,
+        \end{equation*}
+        which is the union of $y,z,w$-hyperplane and $x,w$-subspace. In general,
+        \begin{equation*}
+            V\left( \text{monomial ideal} \right) = \text{fuzzy union of coordinate subspaces}.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \clearpage
+    
+    \np Consider the partial order of $\N^n$ such that
+    \begin{equation*}
+        \left( a_1,\ldots,a_n \right)\leq\left( b_1,\ldots,b_n \right) \iff a_1\leq b_1, \ldots, a_n\leq b_n.
+    \end{equation*}
+    Take $S\subseteq\N^n$. Say $a\in S$ is \emph{minimal} if for every $b\in S$, $a\leq b$.
+
+    \begin{theorem}{Dickson's Lemma}
+        Let $S\subseteq\N^n$. Then $S$ has finitely many minimal elements.
+    \end{theorem}
+    
+    \begin{proof}
+        We proceed inductively on $n$.
+
+        If $n=1$, then $S$ has at most $1$ minimal element.
+
+        Suppose $n>1$. Let $T = \left\lbrace \left( a_1,\ldots,a_{n-1} \right)\in\N^{n-1}: \left( a_1,\ldots,a_n \right)\in S \right\rbrace$. By inductive hypothesis, $G$ has a finite number of minimal elements $a^1,\ldots,a^k$. For each $a^i$, choose $a^i_n\in\N$ such that $\left( a^i,a^i_n \right) \in S$. 
+
+        Let $b = \max_i\left\lbrace a^i_n \right\rbrace$. For each $c\in\left\lbrace 0,\ldots,b \right\rbrace$, let
+        \begin{equation*}
+            T^c = \left\lbrace \left( a_1,\ldots,a_{n-1} \right)\in\N^{n-1}:\left( a_1,\ldots,a_{n-1},c \right)\in S \right\rbrace.
+        \end{equation*}
+        By inductive hypothesis, each $T^c$ has a finite set $T^c_{\min}$ of minimum elements. Let
+        \begin{equation*}
+            \overline{T_{\min}} = \left\lbrace \left( a^i,a^i_n \right)\in\N^n : i\in\left\lbrace 1,\ldots,k \right\rbrace \right\rbrace\subseteq S
+        \end{equation*}
+        and let
+        \begin{equation*}
+            \overline{T^c_{\min}} = \left\lbrace \left( a,c \right)\in\N^n: a\in T^c_{\min} \right\rbrace \subseteq S.
+        \end{equation*}
+
+        \begin{subproof}[Claim 1]
+            \textit{Let $S_{\min}$ be the set of minimal elelments of $S$. Then $S_{\min}\subseteq\overline{T_{\min}}\cup\bigcup^{b-1}_{c=0}\overline{T^c_{\min}}$.}
+            
+            Consider $u = \left( u_1,\ldots,u_n \right)\in S$. If $u_n\geq b$, then $u\geq t$ for some $t\in\overline{T_{\min}}$. If $u_n<b$, then $u\geq t$ for some $t\in \overline{T^{u_n}_{\min}}$.
+
+            \hfill\textit{(Done with Claim 1)}
+        \end{subproof}
+
+        Since the union $\overline{T_{\min}}\cup\bigcup^{b-1}_{c=0}\overline{T^c_{\min}}$ is finite, the result follows.
+    \end{proof}
+
+    \begin{cor}{}
+        Let $I$ be a monomial ideal and let $M$ be a generating set ofmonomials. Then there is a finite $M'\subseteq M$ such that $I = \left< M' \right>$. 
+    \end{cor}	
+
+    \begin{proof}[Proof Sketch]
+        We consider monomials as elements of $\N^n$ and use Dickson's lemma.
+    \end{proof}
+    
+    \begin{definition}{\textbf{Minimal} Set of Monomials}
+        Let $M$ be a set of monomials. We say $M$ is \emph{minimal} if for every proper subset $N\subset M$, $\left< N \right> \subset \left< M \right> $.   
+    \end{definition}
+    
+    \begin{prop}{}
+        Every monomial ideal $I$ has a unique minimal set of monomial generators.
+    \end{prop}
+    
+    \begin{proof}
+        By Dickson's lemma, minimal monomial generating sets exist and are finite. Suppose we have minimal sets of monomials generators $U = \left\lbrace u_i \right\rbrace^{r}_{i=1}, V = \left\lbrace v_j \right\rbrace^{s}_{j=1}$. Then
+        \begin{equation*}
+            \left< u_i \right>^r_{i=1}  = \left< v_j \right>^s_{j=1}. 
+        \end{equation*} 
+        For each $i$, there is $j$ such that $v_{j}|u_i$. But $u_k|v_{j}$ for some $k$, so that $u_k|u_i$. Since the set $\left\lbrace u_i \right\rbrace^{r}_{i=1}$ is minimal, $u_k = u_i = v_j$. Continuing this argument, $U\subseteq V$. 
+
+        By symmetry, $V\subseteq U$ as well, which concludes the proof.
+    \end{proof}
+    
+    \begin{definition}{\textbf{Canonical Generating Set} of a Monomial Ideal}
+        Let $I$ be a monomial ideal. The \emph{canonical generating set} of $I$, denoted as $G\left( I \right)$, is the unique minimal set of monomial generators in Proposition 2.9.
+    \end{definition}
+
+    \begin{prop}{}
+        Every ascending chain $\left( I_{n} \right)^{\infty}_{n=1}$ of monomial ideals stabilizes. That is, there is $N\in\N$ such that $I_{n+1} = I_n$ for all $n>N$.
+    \end{prop}
+
+    \begin{proof}
+        Let
+        \begin{equation*}
+            G = \bigcup^{\infty}_{n=1} G\left( I_n \right).
+        \end{equation*}
+        By Dickson's lemma, $G$ has a finite minimal set $G'$. Since $G'$ is finite, $G'\subseteq\bigcup^{\infty}_{n=1} G\left( I_n \right)$ for some $N\in\N$. Let $m>N$ and let $u\in I_m$ be a monomial. Then 
+        \begin{equation*}
+            \begin{aligned}
+                \text{$u$ is divisible by an element of $G\left( I_m \right)$} & \implies \text{$u$ is divisible by an element of $G$} \\
+                                                                               & \implies \text{$u$ is divisible by an element of $G'$} \\
+                                                                               & \implies \text{$u$ is divisible by an element of $\bigcup^{N}_{n=1}G\left( I_n \right)$.}
+            \end{aligned} 
+        \end{equation*}
+        Thus $u\in I_N$, so $I_m\subseteq I_N$, implying $I_m = I_N$.
+    \end{proof}
+    
+    \subsection{Operations on Monomial Ideals}
+
+    Let $I,J$ be monomial ideals. The sum $I+J$ is a monomial ideal with
+    \begin{equation*}
+        G\left( I+J \right) \subseteq G\left( I \right)\cup G\left( J \right).
+    \end{equation*}
+    The product $IJ$ is also monomial, with
+    \begin{equation*}
+        G\left( IJ \right) \subseteq\left\lbrace uv: u\in G\left( I \right),v\in G\left( J \right) \right\rbrace.
+    \end{equation*}
+
+    \begin{example}{}
+        Let $I = \left( xy,yz^{2} \right), J = \left( x^{2}y,yz \right)\subseteq K\left[ x,y,z \right]$. Then
+        \begin{equation*}
+            I = y^{\perp}\cup\left( \text{$y$-axis with some fuzz in $z$-direction} \right)
+        \end{equation*}
+        and
+        \begin{equation*}
+            J = y^{\perp}\cup\left( \text{$y$-axis with some fuzz in $x$-direction} \right).
+        \end{equation*}
+        It turns out that,
+        \begin{equation*}
+            I+J = \left< xy,yz^{2},x^{2}y,yz \right>. 
+        \end{equation*}
+        This means
+        \begin{equation*}
+            I+J = y^{\perp}\cup\left( \text{$y$-axis} \right),
+        \end{equation*}
+        since the \textit{fuzziness in $I,J$ are in orthogonal direction}. Thus
+        \begin{equation*}
+            I+J = \left< xy,yz \right> .
+        \end{equation*}
+    \end{example}
+    
+    \rruleline
+
+    \begin{example}{}
+        Consider $I,J$ from Example 2.11. Then
+        \begin{equation*}
+            IJ = \left< x^{3}y^{2}, xy^{2}z, x^{2}y^{2}z^{2}, y^{2}z^{3} \right> .
+        \end{equation*}
+        Since $x^{2}y^{2}z^{2}$ is a multiple of $xy^{2}z$, we can get rid of it:
+        \begin{equation*}
+            IJ = \left< x^{3}y^{2}, xy^{2}z, y^{2}z^{3} \right>. 
+        \end{equation*}
+        This means we can make all three generators vanish by
+        \begin{enumerate}
+            \item making $y^{2}$ vanish (i.e. $y^{\perp}$ with some fuzz); or
+            \item making $x,z,x^{3},z^{3}$ vanish (i.e. $y$-axis with lots of fuzz).
+        \end{enumerate}
+        Hence
+        \begin{equation*}
+            IJ = \left( \text{$y^{\perp}$ with some fuzz} \right) \cup \left( \text{$y$-axis with lots of fuzz} \right).
+        \end{equation*}
+    \end{example}
+    
+    \rruleline
+
+    \clearpage
+    
+    \begin{prop}{}
+        Let $I,J$ be monomial ideals. Then $I\cap J$ is monomial and
+        \begin{equation*}
+            I\cap J = \left< \lcm\left( u,v \right): u\in G\left( I \right), v\in G\left( J \right) \right>. 
+        \end{equation*}
+    \end{prop}
+    
+    \begin{proof}
+        Let $f\in I\cap J$. Then $f\in I$ and $f\in J$, where $I,J$ are monomial, so $\supp\left( f \right)\subseteq I, \supp\left( f \right)\subseteq J$. Hence $\supp\left( f \right)\subseteq I\cap J$. Thus $I\cap J$ is monomial.
+
+        Let $w\in I\cap J$ be monomial. Then there is $u\in G\left( I \right), v\in G\left( J \right)$ which divide $w$. Thus $\lcm\left( u,v \right)|w$, so 
+        \begin{equation*}
+            w\in \left< \lcm\left( u,v \right): u\in G\left( I \right), v\in G\left( J \right) \right>.
+        \end{equation*}
+
+        The converse containment is clear.
+    \end{proof}
+
+    \begin{example}{}
+        Consider $I,J$ from Example 2.11. Then
+        \begin{equation*}
+            I\cap J = \left< x^{2}y, xyz, x^{2}yz^{2}, yz^{2} \right> 
+        \end{equation*}
+        and we can get rid of $x^{2}yz^{2}$ since it is a multiple of every other generator. Hence
+        \begin{equation*}
+            I\cap J = \left< x^{2}y, xyz, yz^{2} \right>. 
+        \end{equation*}
+        To make every generator vanish, we can make
+        \begin{enumerate}
+            \item $y$ vanish ($y^{\perp}$); or
+            \item $x,z,xz,x^{2},z^{2}$ vanish ($y$-axis with fuzz in any other direction!).
+        \end{enumerate}
+    \end{example}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Let $I,J$ be monomial ideals. Then $I:J$ is monomial with
+        \begin{equation*}
+            I:J = \bigcap^{}_{v\in G\left( J \right)} I:\left< v \right>
+        \end{equation*}
+        and
+        \begin{equation*}
+            I:\left< v \right> = \left< \frac{u}{\gcd\left( u,v \right)}: u\in G\left( I \right) \right>.  
+        \end{equation*}
+    \end{prop}
+
+    \begin{proof}
+        The first equality
+        \begin{equation*}
+            I:J = \bigcap^{}_{v\in G\left( J \right)} I:\left< v \right>
+        \end{equation*}
+        is in Assignment 2. 
+
+        \begin{claim}
+            \textit{$I:\left< v \right>$ is monomial for any $v\in G\left( J \right)$.}
+
+            Suppose $f\in I:\left< v \right>$. Then $fv\in I$, so $\supp\left( fv \right)\subseteq I$. This means $\supp\left( f \right)\subseteq I:\left< v \right>$. Thus $I:\left< v \right>$ is monomial. 
+
+            \hfill\textit{(End of Claim 1)}
+        \end{claim}
+
+        Since finite intersection of monomial ideals is monomial by Proposition 2.11, it follows that $I:J$ is monomial.
+    
+        Let $u\in I:\left< v \right>$ be a monomial. Then $uv\in I$ and so $i|uv$ for some $i\in G\left( I \right)$. By dividing $i$ by $\gcd\left( i,v \right)$, $\frac{i}{\gcd\left( i,v \right)}|u$, so $u\in \left< \frac{i}{\gcd\left( i,v \right)} : i\in G\left( I \right) \right>$. Hence
+        \begin{equation*}
+            I:\left< v \right> \subseteq \left< \frac{u}{\gcd\left( u,v \right)}:u\in G\left( I \right) \right>.  
+        \end{equation*}
+
+        The reverse containment is clear.
+    \end{proof}
+
+    \clearpage
+    
+    \begin{example}{}
+        Consider $I,J$ from Example 2.11. Then
+        \begin{equation*}
+            I:J = \left( I:\left< x^{2}y \right>  \right)\cap\left( I:\left< yz \right>  \right) = \left< 1,z^{2} \right>\cap\left< x,z \right> = \left< x,z \right> = \left( \text{$y$-axis} \right).
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+    
+    \begin{definition}{\textbf{Squarefree} Monomial}
+        We say a monomial is \emph{squarefree} if it has no exponents greater than $1$.
+
+        We say a monomial ideal $I$ is \emph{squarefree} if $I$ can be generated by squarefree monomials.
+    \end{definition}
+    
+    \np We note that in order to check that a monomial ideal $I$ is squarefree, it suffices to check its canonical generating set $G\left( I \right)$.
+    
+    \begin{recall}{\textbf{Prime} Ideal}
+        Let $I$ be an ideal. We say $I$ is \emph{prime} if $I$ is a proper ideal and for all $f,g\in\K\left[ \vec{x} \right]$,
+        \begin{equation*}
+            fg\in I\implies f\in I\text{ or }g\in I.
+        \end{equation*}
+    \end{recall}
+
+    \begin{prop}{}
+        Let $I\subseteq S$ be an ideal. Then
+        \begin{equation*}
+            \text{$I$ is prime} \iff \text{$S /I$ is a domain}.
+        \end{equation*}
+    \end{prop}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Let $I$ be a squarefree monomial ideal. Then $I$ is a finite intersection of monomial prime ideals.
+    \end{prop}
+
+    \begin{proof}
+        Write $G\left( I \right) = \left\lbrace u_1,\ldots,u_r \right\rbrace$. We proceed inductively on $r$.
+
+        When $r=1$, then $I = \left< u_1 \right> = \left< x_{1_1}\cdots x_{1_d} \right> = \bigcap^{d}_{j=1} \left< x_{1_j} \right>$, where $u_1 = x_{1_1}\cdots x_{1_d}$. But every principle ideal generated by a single variable is prime, so the result follows.
+
+        Now suppose $r>1$. For all $i$, write
+        \begin{equation*}
+            u_1 = x_1\cdots x_d.
+        \end{equation*}
+        Now
+        \begin{equation*}
+            \bigcap^{d}_{j=1} \left< x_j, u_2, \ldots, u_r \right> = \left< u_1,\ldots,u_r \right>  
+        \end{equation*}
+        by the intersection lemma for polynomial ideals. By induction, $\left< u_2,\ldots,u_r \right> = \bigcap^{s}_{i=1}P_i$ for some prime ideals $P_1,..,P_s$. So
+        \begin{equation*}
+            I = \bigcap^{d}_{j=1} \left< x_j, u_2 , \ldots, u_r \right>  = \bigcap^{d}_{j=1} \left( \left< x_j \right> + \bigcap^{s}_{i=1} P_i  \right) = \bigcap^{d}_{j=1} \bigcap^{s}_{i=1} \left( \left( x_j \right)+P_i \right).
+        \end{equation*}
+        But we know that the sum of two monomial prime ideals is monomial prime. Thus $I$ is a finite intersection of monomial prime ideals.
+    \end{proof}
+    
+    \begin{cor}{}
+        Let $I$ be a monomial ideal. Then
+        \begin{equation*}
+            \text{$I$ is radical}\iff\text{$I$ is squarefree}.
+        \end{equation*}
+    \end{cor}	
+    
+    \begin{proof}
+        ($\impliedby$) Suppose $I$ is squarefree. Then $I$ can be written as a finite intersection of monomial prime ideals. By Problem 1 on Assignment 3, it follows that $I$ is radical.
+
+        ($\implies$) Suppose $I$ is not squarefree. Then $G\left( I \right)$ contains a monomial
+        \begin{equation*}
+            f = \prod^{r}_{i=1} x_{j_i}^{a_i}.
+        \end{equation*}
+        Let
+        \begin{equation*}
+            m = \max_{1\leq i\leq r} a_i > 1.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \left( x_{j_1}\cdots x_{j_r} \right)^m \in I,
+        \end{equation*}
+        so that
+        \begin{equation*}
+            x_{j_1}\cdots x_{j_r}\in\sqrt{I}.
+        \end{equation*}
+        But $x_{j_1}\cdots x_{j_r}\notin I$, since it divides an element $f$ which is one of the minimal generators of $I$. Hence $I$ is not radical.
+    \end{proof}
+    
+    \begin{theorem}{}
+        Let $I$ be monomial. Then
+        \begin{equation*}
+            \sqrt{I} = \left< \sqrt{u}:u\in G\left( I \right) \right>, 
+        \end{equation*}
+        where $\sqrt{u}$ is obtained by re-writing every nonzero exponent of $u$ to $1$.
+    \end{theorem}
+
+    \begin{proof}
+        Let $J = \left< \sqrt{u}: u\in G\left( I \right) \right>$. Then $G\left( I \right)\subseteq J$, which means $I\subseteq J$. Also $J$ is radical, so $\sqrt{I}\subseteq J$.
+
+        For each $u\in G\left( I \right)$, let $m_u$ be the highest exponent in $u$. Then $\left( \sqrt{u} \right)^{m_u}\in I$, so $\sqrt{u}\in\sqrt{I}$. Thus $J\subseteq\sqrt{I}$.
+    \end{proof}
+    
+    \subsection{Grobner Bases}
+
+    Algebraically, we are going to \textit{flatly degenerate} ideals to monomials. Geometrically, we are going to flatly degenerate schemes to fuzzy union of coordiate subspaces.
+    
+    There will be some properties that will be invariant under degeneration. This would be great, as we will be able to conveniently calculate things on monomials. For instance, Hilbert series is invariant. Consequently, \textit{dimension}, \textit{(multi-)degree}, \textit{arithmetic genus} will be also invariant.
+
+    Other (non-invariant) properties can only get \textit{worse} (e.g. \textit{Betti numbers}, \textit{Cohen-Macaulay-ness},\textit{Gorensteinness}, \textit{Castelnuovo-Mumford regularity},  \textit{primality}, \textit{radicalness}). In some cases, we can tell that some didn't get worse.
+
+    Recall that we are going to identify monomials with elements in $\N^n$ with partial order
+    \begin{equation*}
+        \left( a_1,\ldots,a_n \right)\leq \left( b_1,\ldots,b_n \right)\iff \forall i\left[ a_i\leq b_i \right].
+    \end{equation*}
+    We extend this to a total order.
+
+    \begin{definition}{\textbf{Monomial Order}}
+        A \emph{monomial order} is a total order on $\N^n$ such that
+        \begin{enumerate}
+            \item if $a<b$ in $\N^n$, then $a+c<b+c$ for all $c\in\N^n$; and\hfill\textit{shifting}
+            \item for all $a\in\N^n$, $a\geq \left( 0,\ldots,0 \right)$.
+        \end{enumerate}
+    \end{definition}
+    
+    \begin{example}{Lexicographic Order (Lex)}
+        The \emph{lexicographic order} (\emph{lex}) given by
+        \begin{equation*}
+            a < b \iff \text{first nonzero entry of $b-a>0$}
+        \end{equation*}
+        is a monomial order.
+    \end{example}
+
+    \rruleline
+
+    \clearpage
+
+    \begin{example}{Graded Lexicographic Order (Grlex)}
+        The \emph{graded lexicographic order} (\emph{grlex}) given by
+        \begin{equation*}
+            a<b\iff\text{$\left| a \right|<\left| b \right|$ or $\left( \left| a \right|=\left| b \right|\text{ and $a<b$ using the lexicographic order} \right)$}
+        \end{equation*}
+        is a monomial order.
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{Reverse Lexicographic Order (Grevlex)}
+        The \emph{reverse lexicographic order} (\emph{grevlex}) given by
+        \begin{equation*}
+            a<b\iff\text{$\left| a \right|<\left| b \right|$ or $\left( \left| a \right|=\left| b \right|\text{ and last nonzero entry of $b-a$ is negative} \right)$}
+        \end{equation*}
+        is a monomial order.
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{}
+        Consider the order $x>y>z$ on three variables $x,y,z$ and consider monomials
+        \begin{equation*}
+            \left\lbrace x^{2},xz^{2},y^{3} \right\rbrace.
+        \end{equation*}
+        According to lex:
+        \begin{equation*}
+            x^{2} > xz^{2} > y^{3}.
+        \end{equation*}
+        According to grlex:
+        \begin{equation*}
+            xz^{2} > y^{3} > x^{2}.
+        \end{equation*}
+        According to grevlex:
+        \begin{equation*}
+            y^{3} > xz^{2} > x^{2}.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \begin{example}{}
+        Again consider the order $x>y>z$ and consider monomials of degree $2$. Then according to grlex:
+        \begin{equation*}
+            x^{2} > xy > xz > y^{2} > yz > z^{2}.
+        \end{equation*}
+        According to grevlex:
+        \begin{equation*}
+            x^{2} > xy > y^{2} > xz > yz > z^{2}.
+        \end{equation*}
+        Hence we see that it is \textit{impossible} to permute the variables to obtain the same order on grlex and grevlex.
+    \end{example}
+
+    \rruleline
+    
+    \begin{prop}{}
+        Let $<$ be a monomial order on $\N^n$. Then $<$ can be extended to a partial order $\leq$ such that
+        \begin{enumerate}
+            \item if $u,v\in\N^n$ are monomials $u_j = u_{i_k} = u_{i_r}$ with $u|v$, then $u\leq v$; and
+            \item if there is a decreasing sequence $\left( u_{i} \right)^{\infty}_{i=1}\in\N^n$, then there is $N\in\N$ such that $u_i=u_N$ for all $i\geq N$.\hfill\textit{Well-ordering}
+        \end{enumerate}
+    \end{prop}
+    
+    \begin{proof}
+        \begin{enumerate}
+            \item If $u|v$, then $v=uw$ for some $w$. But $1\leq w$, so $u\leq uw=v$.
+
+            \item Let $M = \left\lbrace u_i \right\rbrace_i$. By Dickson's lemma, there are finitely many minimal elements with respect to the partial order, say
+                \begin{equation*}
+                    u_{i_1}, \ldots, u_{i_r},
+                \end{equation*}
+                with $i_1<i_2<\cdots<i_r$. Let $j>i_r$. Then $u_{i_k}|u_j$ for some $k\in\left\lbrace 1,\ldots,r \right\rbrace$. Therefore $u_{i_k}|u_j$. But then
+                \begin{equation*}
+                    u_{i_k} \geq u_{i_r} \geq u_j \geq u_{i_k},
+                \end{equation*}
+                so that $u_j = u_{i_k} = u_{i_r}$.
+        \end{enumerate}
+    \end{proof}
+
+    \clearpage
+    
+    \begin{definition}{\textbf{Initial Monomial} of a Polynomial}
+        Let $S = K\left[ \vec{x} \right]$ and fix a monomial order $<$. For $f\in S$, if $f$ is nonzero, we define the \emph{initial monomial} (or \emph{leading monomial}) of $f$, denoted as $\initial_<\left( f \right)$, as
+        \begin{equation*}
+            \initial_< \left( f \right) = \text{$<$-greatest monomial of $\supp\left( f \right)$}.
+        \end{equation*}
+        The coefficient $k$ of $\initial_<$ is called the \emph{leading coefficient} (or \emph{initial coefficient}), and $k\initial_<\left( f \right)$ is called the \emph{leading term} (or \emph{initial term}).
+
+        In case $f=0$, we set $\initial_<\left( f \right)=0$.
+    \end{definition}
+
+    \begin{definition}{\textbf{Initial Ideal} of an Ideal}
+        Let $I$ be an ideal. We define the \emph{initial ideal} of $I$, denoted as $\initial_<\left( I \right)$, by
+        \begin{equation*}
+            \initial_<\left( I \right) = \left< \initial_<\left( f \right):f\in I \right>. 
+        \end{equation*}
+    \end{definition}
+    
+    \begin{example}{}
+        Let $S=K\left[ x,y,z,w \right]$ ordered by grevlex with $x>y>z>w$. Let
+        \begin{equation*}
+            I = \left< xy-zw, xz-y^{2} \right>. 
+        \end{equation*}
+        Then the leading terms of the generators are $xy, y^{2}$, so
+        \begin{equation*}
+            \left< xy,y^{2} \right>\subseteq\initial\left( I \right). 
+        \end{equation*}
+        Moreover,
+        \begin{equation*}
+            y\left( xy-zw \right) + x\left( xz-y^{2} \right) = x^{2}z
+        \end{equation*}
+        which is not a multiple of $xy,y^{2}$, so
+        \begin{equation*}
+            \left< xy,y^{2},x^{2}z \right>\subseteq\initial\left( I \right) .
+        \end{equation*}
+        But how are we supposed to know when we are done?
+    \end{example}
+    
+    \rruleline
+
+    \np By Dickson's lemma, $\initial\left( I \right)$ is generated by some finite set of monomials, which must be initial monomials of some elements of $I$. Thus there exist $g_1,\ldots,g_k\in I$ such that
+    \begin{equation*}
+        \initial\left( I \right) = \left< \initial\left( g_i \right) \right>^k_{i=1}. 
+    \end{equation*}
+
+    \begin{definition}{\textbf{Grobner Basis} for an Ideal}
+        Consider the above setting. Such a set $G = \left\lbrace g_i \right\rbrace^{k}_{i=1}$ is called a \textbf{Grobner basis} for $I$.
+    \end{definition}
+    
+    \begin{theorem}{Macaulay (1927)}
+        Let $I\subseteq S=K\left[ \vec{x} \right]$ be an ideal. Then the residue classes of monomials in $S\setminus\initial\left( I \right)$ form a $K$-basis for $S /I$.
+    \end{theorem}
+
+    \begin{proof}
+        Suppose the classes of the monomials are linearly dependent. Then there is some nonzero linear combination
+        \begin{equation*}
+            f = \sum^{k}_{i=1} c_im_i \in I,
+        \end{equation*}
+        with $c_1,\ldots,c_k\in K$ and monomials $m_1,\ldots,m_k$ from $S\setminus\initial\left( I \right)$. But $\initial\left( f \right)\in\initial\left( I \right)$, which is a contradiction.
+
+        Let $f\in S$ and consider $f+I \in S /I$. We want to write $f+I$ as a $K$-linear combination of monomials in $S\setminus\initial\left( I \right)$. Consider the set
+        \begin{equation*}
+            \Omega = \left\lbrace g\in S: \text{$g+I$ cannot be written as a $K$-linear combination of monomials in $S\setminus\initial\left( I \right)$} \right\rbrace.
+        \end{equation*}
+        Suppose $\Omega\neq\emptyset$ for contradiction. Let $g\in\Omega$ with smallest $\initial\left( g \right)$. Let $c\in K$ be the leading coefficient of $g$. Let $f' = f-c\initial\left( f \right)$. By minimality assumption, $f'\notin\Omega$, so that
+        \begin{equation*}
+            f'+I = \sum^{k}_{i=1}c_im_i
+        \end{equation*}
+        for some $c_1,\ldots,c_k\in K$ and monomials $m_1,\ldots,m_k\in S\setminus\initial\left( I \right)$.
+
+        Now 
+        \begin{equation*}
+            f+I = f'+c\initial\left( f \right)+I = c\initial\left( f \right)+c_1m_1+\cdots+c_km_k+I,
+        \end{equation*}
+        so if $\initial\left( f \right)\in S\setminus \initial\left( I \right)$, then $f\notin\Omega$, which is a contradiction.
+
+        Hence $\initial\left( f \right)\in\initial\left( I \right)$, so there is $h\in I$ such that $f,h$ have the same leading term. Then $\initial\left( f-h \right) < \initial\left( f \right)$, so $f-h\notin\Omega$. This means
+        \begin{equation*}
+            \left( f-h \right)+I = d_1n_1+\cdots+d_sn_s+I
+        \end{equation*}
+        for some $d_1,\ldots,d_s\in k$ and monomials $n_1,\ldots,n_s\in S\setminus\initial\left( I \right)$. But $h\in I$, so $f-h+I = f+I$, so $f+I$ is written as a $K$-linear combination of residue classes of monomial ideals, a contradiction.
+    \end{proof}
+    
+    \begin{cor}{}
+        If $I$ is a homogeneous ideal, then
+        \begin{equation*}
+            S /I = \bigoplus^{\infty}_{k=0} S_k /I_k
+        \end{equation*}
+        is graded and
+        \begin{equation*}
+            \dim\left( S /I \right)_k = \dim\left( S /\initial\left( I \right) \right)_k.
+        \end{equation*}
+    \end{cor}	
+    
+    \rruleline
+    
+    \np Recall that for a graded algebra $R = \bigoplus^{\infty}_{n=0} R_n$, the \emph{Hilbert function} $H:\N\to\N$ is given by
+    \begin{equation*}
+        H\left( n \right) = \dim\left( R_n \right),\hspace{1cm}\forall n\in\N.
+    \end{equation*}
+    The \emph{Hilbert series} is
+    \begin{equation*}
+        H\left( R,t \right) = \sum^{\infty}_{n=1}\dim\left( R_n \right)t^n = \sum^{\infty}_{n=1}H\left( n \right)t^n.
+    \end{equation*}
+    
+    \begin{cor}{}
+        If $I$ is a homogeneous ideal, then
+        \begin{equation*}
+            H\left( S /I, t \right) = H\left( S /\initial\left( I \right), t \right).
+        \end{equation*}
+    \end{cor}	
+    
+    \rruleline
+    
+    \begin{theorem}{}
+        An ideal $I$ has only finitely many initial ideals.
+    \end{theorem}
+    
+    \begin{proof}
+        Let
+        \begin{equation*}
+            F_0 = \left\lbrace \initial_{<}\left( I \right) : \text{$<$ is a monomial order} \right\rbrace.
+        \end{equation*}
+        Suppose that $F_0$ is infinite, for contradiction. Clearly $I$ is not the zero ideal, so we may fix nonzero $g_1\in I$. For each monomial $m\in\supp\left( g_1 \right)$, let
+        \begin{equation*}
+            F_0^m = \left\lbrace \initial_{<}\left( I \right)\in F_0 : m\in\initial_{<}\left( I \right) \right\rbrace.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            F_0 = \bigcup^{}_{m\in\supp\left( g_1 \right)} F_0^m,
+        \end{equation*}
+        where $\supp\left( g_1 \right)$ is finite. Hence there exists $m_1\in\supp\left( g_1 \right)$ such that $F_0^{m_1}$ is infinite. Denote $F_1 = F_0^{m_1}$.
+
+        Note $F_1$ consists of infinintely many initial ideals, each containing $m_1$, so that $J\neq\left< m_1 \right>$ for some $J\in F_1$ . By Macaulay's theorem, for any $J\in F_1$, the (residue classes $m+I$ of) monomials $m\in S\setminus J$ form a basis of the quotient ring $S /I$. Hence the monomials of $S\setminus\left< m_1 \right>$ must be linearly dependent modulo $I$. Hence there is nonzero $g_2\in I$ with
+        \begin{equation*}
+            g_2 = \sum^{r}_{j=1} c_ju_j
+        \end{equation*}
+        with $c_1,\ldots,c_r\in K$ and $u_1,\ldots,u_r\in S\setminus\left< m_1 \right>$ are monomials.
+
+        Now define
+        \begin{equation*}
+            F_1^{m} = \left\lbrace J\in F_1: m\in J \right\rbrace
+        \end{equation*}
+        for all $m\in\supp\left( g_2 \right)$. Then we can choose $m_2\in\supp\left( g_2 \right)$ such that $F_2 = F_1^{m_2}$ is infinite. In particular, $m_2\notin\left< m_1 \right>$, so 
+        \begin{equation*}
+            \left< m_1 \right>\subset\left< m_1,m_2 \right>.
+        \end{equation*}
+
+        Since $F_2$ is infinite, there exists $J\in F_2$ with $J\neq\left< m_1,m_2 \right>$, so the monomials of $S\setminus \left< m_1,m_2 \right>$ are linearly dependent modulo $I$. So find nonzero $g_3\in I$ which can be written as a $K$-linear combination of monomials in $S\setminus\left< m_1,m_2 \right>$. Choose $m_3\in\supp\left( g_3 \right)$ such that $F_3 = \left\lbrace J\in F_2:m_3\in J \right\rbrace$ is infinite. This means
+        \begin{equation*}
+            \left< m_1 \right>\subset\left< m_1,m_2 \right>\subset\left< m_1,m_2,m_3 \right>.   
+        \end{equation*}
+        Continuing this process, we have a strictly increasing chain
+        \begin{equation*}
+            \left< m_1 \right>\subset\left< m_1,m_2 \right>\subset\left< m_1,m_2,m_3 \right>\subset\cdots.   
+        \end{equation*}
+        But this contradicts the ascending chain condition of monomial ideals.
+
+        Thus $F_0$ is finite, as required.
+    \end{proof}
+    
+    \begin{theorem}{Hilbert Basis}
+        Every ideal $I\subseteq K\left[ \vec{x} \right]$ is finitely generated. Precisely, if $g_1,\ldots,g_m\in K\left[ \vec{x} \right]$ form a Grobner basis of $I$, then $\left< g_1,\ldots,g_m \right> = I$. 
+    \end{theorem}
+    
+    \begin{proof}
+        Let $\left\lbrace g_1,\ldots,g_m \right\rbrace$ be a Grobner basis of $I$ and let $f\in I$. We induct on $\initial\left( f \right)$.
+
+        Note $\initial\left( f \right)\in\initial\left( I \right)$, so $\initial\left( f \right) = \initial\left( g_i \right)w$ for some $i$ and monomial $w$. Let $c$ be the leading coefficient of $f$ and let $d$ be the leading coefficient of $g_i$. Define
+        \begin{equation*}
+            h = f-\frac{c}{d} wg_i\in I.
+        \end{equation*}
+        If $h=0$, then $f=\frac{c}{d}wg_i\in\left< g_1,\ldots,g_m \right>$. So suppose $h\neq 0$. Then $\initial\left( h \right)<\initial\left( f \right)$, so by induction, $h\in\left< g_1,\ldots,g_m \right>$. But this means $f=h+\frac{c}{d}wg_i\in\left< g_1,\ldots,g_m \right>$, as required.  
+    \end{proof}
+
+    \begin{cor}{}
+        Let
+        \begin{equation*}
+            I_1\subseteq I_2\subseteq\cdots
+        \end{equation*}
+        be an ascending chain of ideals in $S$. Then there is $N\in\N$ such that $I_k=I_N$ for all $k\geq N$.
+    \end{cor}	
+    
+    \begin{proof}
+        Fix a monomial order $<$. Then
+        \begin{equation*}
+            \initial\left( I_1 \right)\subseteq\initial\left( I_2 \right)\subseteq\cdots
+        \end{equation*}
+        is an ascending chain of monomial ideals, which stabilizes due to Dickson's lemma (Proposition 2.10). That is, there is $N\in\N$ such that $\initial\left( I_k \right)=\initial\left( I_N \right)$ for all $k\geq N$. 
+
+        But by \textit{cheating lemma}, if $I\subseteq J$ and $\initial\left( I \right)=\initial\left( J \right)$, then $I=J$. Thus $I_1\subseteq I_2\subseteq\cdots$ stabilizes.
+    \end{proof}
+
+    \begin{example}{Commuting Matrices Problem -- Still Open!}
+        Let
+        \begin{equation*}
+            V = \left\lbrace \left( A,B \right)\in \left( \R^{n\times n} \right)^{2} : AB=BA \right\rbrace\subseteq K^{2n^2}.
+        \end{equation*}
+        What is $I = I\left( V \right)$?
+
+        Obviously, we can write down homogeneous quadratics concerning dot products of rows and columns. But no one knows if these quadratics are enough.
+    \end{example}
+
+    \rruleline
+
+    \subsection{Division Algorithm}
+
+    \begin{example}{Division Algorithm for Univariate Polynomials}
+        Consider the case
+        \begin{equation*}
+            f = x^{3}+4x^{2}+3x-7, g = x-1\in K\left[ x \right].
+        \end{equation*}
+        Then by doing long division, we obtain
+        \begin{equation*}
+            f = g \left( x^{2}+5x+8 \right) + 1.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \np In multivariate case, the leading term depends on the monomial order that we use.
+
+    \begin{example}{Division Algorithm for Multivariate Polynomials}
+        Let
+        \begin{equation*}
+            f = xy^{2} + 1 , g_1 = xy+1, g_2 = y+1 \in K\left[ x,y \right].
+        \end{equation*}
+        We want to write $f$ in terms of
+        \begin{equation*}
+            f = q_1g_1 + q_2g_2 + r,
+        \end{equation*}
+        where $r$ is a \textit{remainder}, which should be \textit{small} (but what do we even mean by saying small?).
+
+        We are going to divide $f$ by $g_1$ first and then divide the remainder of $f /g_1$ by $g_2$.
+
+        In this case, the leading terms are clear, $xy^{2}$ for $f$, $xy$ for $g_1$, and $y$ for $g_2$. Note that the leading term $xy$ for $g_1$ goes into the leading term $xy^{2}$ for $f$ $y$ times, so we have
+        \begin{equation*}
+            f - g_1y = \left( xy^{2}+1 \right) - \left( xy+1 \right)y = -y+1.
+        \end{equation*}
+        Note that the leading term $xy$ does not divide $-y+1$, so $-y+1$ is the remainder of the division $f /g_1$. But note that the leading term $y$ for $g_2$ goes into $-y$ $-1$ times, so that
+        \begin{equation*}
+            \left( f-g_1y \right) - g_2\left( -1 \right) = \left( -y+1 \right) - \left( y+1 \right)\left( -1 \right) = 2.
+        \end{equation*}
+        Thus
+        \begin{equation*}
+            f = y\left( xy+1 \right) - \left( y+1 \right) + 2.
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \np In multivariate case, when the leading term is not divisible, we send it to remainders and remove it from the process.
+    
+    \begin{example}{}
+        Consider
+        \begin{equation*}
+            f = x^{2}y + xy^{2}+y^{2}, g_1=xy-1, g_2=y^{2}-1\in K\left[ x,y \right].
+        \end{equation*}
+        Then
+        \begin{equation*}
+            f - xg_1 - yg_1 = \left( x^{2}y+xy^{2}+y^{2} \right) - x\left( xy-1 \right) - y\left( xy-1 \right) = y^{2}+x+y.
+        \end{equation*}
+        Note that the leading term is $x$ now, which is not divisible by the leading terms $xy, y^{2}$ of $g_1,g_2$. So we record it as a part of the remainder, and proceed the division with $y^{2}+y$. Now the leading term $y^{2}$ is divisible by the leading term $y^{2}$ of $g_2$, so that
+        \begin{equation*}
+            \left( y^{2}+y \right) - \left( y^{2}-1 \right) = y+1.
+        \end{equation*}
+        Now the terms $y,1$ are not divisible by the leading terms $xy, y^{2}$, so we conclude that $x+y+1$ is the remainder.
+    \end{example}
+
+    \rruleline
+
+    \begin{theorem}{Division Algorithm for Multivariate Polynomials}
+        Let $f\in S=K\left[ \vec{x} \right]$ and let $g_1,\ldots,g_m\in S$ be nonzero. The division algorithm produces polynomials $q_1,\ldots,q_m,r\in S$ such that
+        \begin{enumerate}
+            \item $f = \left( \sum^{m}_{j=1}q_jg_j \right) + r$;
+            \item $\supp\left( r \right)\cap\left< \initial\left( g_1 \right),\ldots,\initial\left( g_m \right) \right>$;\footnotemark[1] and
+            \item $\initial\left( q_jg_j \right)\leq\initial\left( f \right)$.
+        \end{enumerate}
+        
+        \noindent
+        \begin{minipage}{\textwidth}
+            \footnotetext[1]{This makes sure that $r$ is small.}
+        \end{minipage}
+    \end{theorem}
+
+    \rruleline
+
+    \begin{theorem}{}
+        Fix a monomial order. Suppose $\left\lbrace g_1,\ldots,g_m \right\rbrace$ is a Grobner basis for a monomial ideal $I$. Then every $f\in S$ has a unique remainder aon division by $g_1,\ldots,g_m$. That is, no matter which $g_j$ we start dividing $f$ by, the quotients $q_j$'s in Theorem 2.20 may change, but $r$ stays the same.
+    \end{theorem}
+
+    \begin{proof}
+        Suppose we divide in $2$ ways to get
+        \begin{equation*}
+            f = r + \sum^{m}_{j=1} q_jg_j = s + \sum^{m}_{j=1} p_jg_j.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \left( r-s \right) + \sum^{m}_{j=1}\left( q_j-p_j \right)g_j,
+            = \left( r+\sum^{m}_{j=1}q_jg_j \right) - \left( s+\sum^{m}_{j=1}p_jg_j \right) 
+            = f-f = 0 \in I.
+        \end{equation*}
+        So $r-s\in I$, since the summation $\sum^{m}_{j=1}\left( q_j-p_j \right)g_j$ is a linear combination of basis elements $g_1,\ldots,g_m$ of $I$.
+
+        For contradiction, suppose $h=r-s\neq 0$. Then $\initial\left( h \right) \in \initial\left( I \right) = \left< \initial\left( g_1 \right),\ldots,\initial\left( g_m \right) \right>$. But $\initial\left( h \right)\in\supp\left( r \right)\cup\supp\left( s \right)$, so either $r$ or $s$ has a monomial in $\left< \initial\left( g_1 \right),\ldots,\initial\left( g_m \right) \right>$, contradicting (b) of Theorem 2.20.  
+    \end{proof}
+    
+    \begin{cor}{Algorithm for Ideal Membership}
+        Let $\left\lbrace g_1,\ldots,g_m \right\rbrace$ be a Grobner basis for a monomial ideal $I$ and let $f\in S$. Then
+        \begin{equation*}
+            f\in I\iff\text{$f$ has remainder $0$ on division by $g_1,\ldots,g_m$}.
+        \end{equation*}
+    \end{cor}	
+
+    \begin{proof}
+        ($\impliedby$) If we run division algorithm and get $f = r + \sum^{m}_{j=1}q_jg_j$ with $r=0$, then clearly $f\in\left< g_1,\ldots,g_m \right> = I$.
+
+        ($\implies$) Supose $f\in I$. Write $f = r+\sum^{m}_{j=1}q_jg_j$ by running division algorithm. Then $r\in I$. If $r\neq 0$, then $\initial\left( r \right) \in \initial\left( I \right) = \left< \initial\left( g_1 \right),\ldots,\initial\left( g_m \right) \right>$, contradicting the fact that $r$ is a remainder. 
+    \end{proof}
+    
+    \subsection{Buchberger's Algorithm for Finding a Grobner Basis}
+    
+    \np Note that Corollary 2.21.1 is left as useless so far, since we know a Grobner basis exists for any monomial ideal, but we do not have a way of generating it.
+
+    \begin{definition}{\textbf{$S$-polynomial}}
+        Fix a monomial order. For all $f,g\in K\left[ x \right]$, the \emph{$S$-polynomial} of $f$ by $g$, denoted as $S\left( f,g \right)$, is defined as
+        \begin{equation*}
+            S\left( f,g \right) = \frac{\lcm\left( \initial\left( f \right),\initial\left( g \right) \right)}{c\initial\left( f \right)} f - \frac{\lcm\left( \initial\left( f \right),\initial\left( g \right) \right)}{d\initial\left( g \right)}g,
+        \end{equation*}
+        where $c,d\in K$ are the leading coefficients of $f,g$, respectively.
+    \end{definition}
+    
+    \np Note that if $f,g\in I$, where $I$ is an ideal, then so is $S\left( f,g \right)$.
+
+    \begin{algorithm}{Buchberger's Algorithm}
+        \INPUT{monomial ideal $I$ and a generating set $F = \left\lbrace f_1,\ldots,f_k \right\rbrace$}
+        \FOR{pair $\left( f,f' \right)\in F^{2}$}
+        \DO{compute $S\left( f,f' \right)$}
+        \FOR{$j\in\left\lbrace 1,\ldots,k \right\rbrace$}
+        \DO{use division algorithm to divide $S\left( f,f' \right)$ by $f_j$ to get a remainder $r_j$}
+        \IF{$r_j\neq 0$}
+        \DO{update $F\leftarrow F\cup\left\lbrace r_j \right\rbrace$}
+        \DO{restart from line 1}
+        \DONE
+        \DONE
+        \DONE
+        \DO{return $F$, which is a Grobner basis}
+    \end{algorithm}
+    
+    \begin{prop}{}
+        Buchberger's algorithm terminates in finite time.
+    \end{prop}
+
+    \begin{proof}
+        Each time we enlarge the set of generators $F$, we strictly increase $\left< \initial\left( f \right):f\in F \right>$. But this cannot get bigger forever by the ascending chain condition (Corollary 2.19.1). 
+    \end{proof}
+    
+    \begin{definition}{\textbf{Reduces to $0$} Modulo $g_1,\ldots,g_m$}
+        We say $f\in K\left[ \vec{x} \right]$ \emph{reduces to $0$} modulo $g_1,\ldots,g_m$ if
+        \begin{equation*}
+            f = \sum^{m}_{i=1} q_ig_i
+        \end{equation*}
+        for some $q_1,\ldots,q_m$ with $\initial\left( f \right)\geq\initial\left( q_ig_i \right)$.
+    \end{definition}
+    
+    \begin{theorem}{}
+        Fix a monomial order and let $I = \left< g_1,\ldots,g_m \right>$ with each $g_i\neq 0$. The following are equivalent.
+        \begin{enumerate}
+            \item $\left\lbrace g_1,\ldots,g_m \right\rbrace$ is a Grobner basis for $I$.
+            \item Every $S\left( g_i,g_j \right)$ reduce to $0$ modulo $g_1,\ldots,g_m$.
+        \end{enumerate}
+    \end{theorem}
+    
+    \begin{proof}
+        (a)$\implies$(b) If $\left\lbrace g_1,\ldots,g_m \right\rbrace$ is a Grobner basis for $I$, then every $f\in I$ reduces to $0$ modulo $g_1,\ldots,g_m$.
+
+        (b)$\implies$(a) It suffices to show that
+        \begin{equation*}
+            \initial\left( I \right) = \left< \initial\left( g_1 \right),\ldots,\initial\left( g_m \right) \right>. 
+        \end{equation*}
+        The $\supseteq$ containment is clear, so we only show $\subseteq$. Let $f\in I$ with $f\neq 0$. Write
+        \begin{equation*}
+            f = \sum^{m}_{i=1} h_ig_i
+        \end{equation*}
+        for some $h_1,\ldots,h_m$. Then
+        \begin{equation*}
+            \initial\left( f \right) \leq \max_{1\leq i\leq m}\initial\left( h_ig_i \right).
+        \end{equation*}
+        Assume we have picked $h_i$'s so as to minimize the difference $\delta = \max_{1\leq i\leq m}\initial\left( h_ig_i \right) - \initial\left( f \right)$. 
+
+        If $\delta = 0$, then there is $i$ such that $\initial\left( f \right) = \initial\left( h_ig_i \right) = \initial\left( h_i \right)\initial\left( g_i \right)$, so $\initial\left( f \right)\in\left< \initial\left( g_1 \right),\ldots,\initial\left( g_m \right) \right>$. 
+
+        Otherwise,
+        \begin{equation*}
+            \initial\left( f \right) < \max_{1\leq i\leq m} \initial\left( h_ig_i \right).
+        \end{equation*}
+        We are going to show that we can choose $h_i$'s better to make the gap $\delta$ smaller, which will bring the contradiction. Let
+        \begin{equation*}
+             u = \max_{1\leq i\leq m}\initial\left( h_ig_i \right) > \initial\left( f \right)
+        \end{equation*}
+        and reorder the summation $\sum^{m}_{i=1}h_ig_i$ so that $\initial\left( g_ih_i \right) = u$ for $i\leq r$ and $\initial\left( h_ig_i \right)<u$ for $i>r$. We can descale all the $g_i$ to have leading coefficient $1$. Let $w_i = \initial\left( h_i \right)$ and let $c_i$ be the leading coefficient of $h_i$. Since $\initial\left( f \right) < u$, it follows that
+        \begin{equation*}
+            \sum^{r}_{i=0} c_i = 0.
+        \end{equation*}
+        For $i\leq r$, we have $u = w_i\initial\left( g_i \right) = w_1\initial\left( g_1 \right)$. This means $\lcm\left(\initial\left( g_1 \right),\initial\left( g_i \right) \right)$ divides $u$, so that
+        \begin{equation*}
+             u = \lcm\left( \initial\left( g_1 \right),\initial\left( g_i \right) \right)v_i
+        \end{equation*}
+        for some monomial $v_i$.
+
+        Now
+        \begin{equation*}
+            \begin{aligned}
+                v_i S\left( g_1,g_i \right) & = v_i\left( \frac{\lcm\left( \initial\left( g_1 \right),\initial\left( g_i \right) \right)}{\initial\left( g_i \right)}g_1 - \frac{\lcm\left( \initial\left( g_1 \right),\initial\left( g_i \right) \right)}{\initial\left( g_i \right)}g_i \right) \\
+                                            & = \frac{u}{\initial\left( g_1 \right)}g_1 - \frac{u}{\initial\left( g_i \right)}g_i = w_1g_1 - w_ig_i.
+            \end{aligned} 
+        \end{equation*}
+        Both $w_1g_1, w_ig_i$ have $u$ as the leading term, so that
+        \begin{equation*}
+            \initial\left( v_iS\left( g_1,g_i \right) \right) < u.
+        \end{equation*}
+        Now recall that the $S$-polynomials $S\left( g_i,g_j \right)$ reduce to $0$ modulo $g_1,\ldots,g_m$, so write
+        \begin{equation*}
+            S\left( g_1,g_i \right) = \sum^{m}_{j=1} q_{i,j}'g_j
+        \end{equation*}
+        for $q_{i,1}',\ldots,q_{i,m}'$ with $\initial\left( q_{i,j}'g_j \right)\leq\initial\left( S\left( g_1,g_i \right) \right)$. Then
+        \begin{equation*}
+            v_iS\left( g_1,g_i \right) = v_i\sum^{m}_{j=1}q'_{i,j}g_j = \sum^{m}_{j=1} q_{i,j}g_j
+        \end{equation*}
+        where
+        \begin{equation*}
+            q_{i,j} = q_{i,j}'v_i.
+        \end{equation*}
+        So
+        \begin{equation*}
+            u > \initial\left( v_iS\left( g_1,g_i \right) \right) \geq \initial\left( q_{i,j}g_j \right)
+        \end{equation*}
+        with
+        \begin{equation*}
+            w_1g_1 - w_ig_i - \sum^{m}_{j=1} q_{i,j}g_j = v_iS\left( g_1,g_i \right) - \sum^{m}_{j=1}q_{i,j}g_j.
+        \end{equation*}
+        Now
+        \begin{equation*}
+            \sum^{r}_{i=2} c_i\left( w_1g_1-w_ig_i \right) = \sum^{r}_{i=1} c_i\left( w_1g_1-w_ig_i \right) = \sum^{r}_{i=1}c_iw_1g_1 - \sum^{r}_{i=1}c_iw_ig_i = -\sum^{r}_{i=1}c_iw_ig_i.
+        \end{equation*}
+        since $c_1=0$ and $\sum^{r}_{i=1}c_i = 0$. Thus
+        \begin{equation*}
+            \begin{aligned}
+                f & = \sum^{r}_{i=1} h_ig_i + \sum^{m}_{i=r+1} h_ig_i = \sum^{r}_{i=1}h_ig_i + \sum^{r}_{i=2} c_i\left( w_1g_1-w_ig_i-\sum^{m}_{j=1}q_{i,j}g_j \right) + \sum^{m}_{i=r+1} h_ig_i \\
+                  & = \sum^{r}_{i=1} h_ig_i - \sum^{r}_{i=1} c_iw_ig_i - \sum^{r}_{i=2}\sum^{m}_{j=1}c_iq_{i,j}g_j + \sum^{m}_{i=r+1}h_ig_i \\
+                  & = \sum^{r}_{i=1} \left( h_i-c_iw_i \right)g_i + \sum^{m}_{i=r+1}h_ig_i - \sum^{m}_{j=1} \left( \sum^{r}_{i=2} c_iq_{i,j}\right) g_j = \sum^{m}_{i=1} h_i'g_i,
+            \end{aligned} 
+        \end{equation*}
+        where
+        \begin{equation*}
+            h_i' =
+            \begin{cases} h_i-c_iw_i-\sum^{r}_{k=2}c_kq_{k,j}&\text{if $i\leq r$} \\ h_i-\sum^{r}_{k=2}c_kq_{k,j} & \text{if $i>r$} \end{cases}.
+        \end{equation*}
+        Now compare $\initial\left( h_i'g_i \right) , \initial\left( h_ig_i \right)$, we have
+        \begin{equation*}
+            \initial\left( h_i'g_i \right) \leq \initial\left( h_ig_i \right)
+        \end{equation*}
+        and strict inequaity for $i\leq r$. Hence $\max_{1\leq i\leq m}\initial\left( h_i'g_i \right)<u$, a contradiction.
+    \end{proof}
+    
+    \begin{lemma}{}
+        Suppose $\gcd\left( \initial\left( f \right),\initial\left( g \right) \right)=1$. Then $S\left( f,g \right)$ reduces to $0$ modulo $f,g$.
+    \end{lemma}
+
+    \begin{proof}
+        Assume that the leading coefficients are $1$. Write
+        \begin{equation*}
+            f = \initial\left( f \right) + f'
+        \end{equation*}
+        and
+        \begin{equation*}
+            g = \initial\left( g \right) + g'.
+        \end{equation*}
+        Since
+        \begin{equation*}
+            \lcm\left( f,g \right) = fg
+        \end{equation*}
+        by $\gcd\left( \initial\left( f \right),\initial\left( g \right) \right) = 1$, we have
+        \begin{equation*}
+            S\left( f,g \right) = \initial\left( g \right)f - \initial\left( f \right)g = \left( g-g' \right)f - \left( f-f' \right)g = f'g+g'f
+        \end{equation*}
+        It remains to check that
+        \begin{equation*}
+            \initial\left( f'g \right),\initial\left( g'f \right)\leq\initial\left( S\left( f,g \right) \right).
+        \end{equation*}
+
+        Suppose, for contradiction,
+        \begin{equation*}
+            \initial\left( f'g \right) = \initial\left( g'f \right).
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \initial\left( f' \right)\initial\left( g \right) = \initial\left( g' \right)\initial\left( f \right).
+        \end{equation*}
+        Since $\initial\left( f \right),\initial\left( g \right)$ are coprime, so $\initial\left( f \right)|\initial\left( f' \right)$, which is absurd, since $\initial\left( f' \right) < \initial\left( f \right)$.
+
+        Hence $\initial\left( f'g \right) < \initial\left( g'f \right)$ or $\initial\left( f'g \right) > \initial\left( g'f \right)$. Assume without loss of generality that
+        \begin{equation*}
+            \initial\left( g'f \right) < \initial\left( f'g \right).
+        \end{equation*}
+        This means
+        \begin{equation*}
+            \initial\left( f'g \right) = \initial\left( S\left( f,g \right) \right),
+        \end{equation*}
+        which means $\initial\left( g'f \right) < \initial\left( S\left( f,g \right) \right)$ as well, which is what we required.
+    \end{proof}
+    
+    \begin{example}{}
+        Let $f=xy-zw, g=xz-y^{2}\in K\left[ x,y,z,w \right]$ and let
+        \begin{equation*}
+            I = \left< f,g \right>. 
+        \end{equation*}
+        We compute a Grobner basis with respect to grevlex $x>y>z>w$.
+
+        We start with the generating set
+        \begin{equation*}
+            F = \left\lbrace f,g \right\rbrace.
+        \end{equation*}
+
+        Observe that
+        \begin{equation*}
+            \initial\left( f \right) = xy, \initial\left( g \right) = y^{2},
+        \end{equation*}
+        which are not coprime. Hence Lemma 2.24 does not apply.
+
+        We have
+        \begin{equation*}
+            S\left( f,g \right) = yf - \left( -x \right)g = x^{2}z-yzw.
+        \end{equation*}
+
+        We then run a division algorithm on $S\left( f,g \right)$ by $f,g$. Note that the leading terms $xy,y^{2}$ do not divide $x^{2}z$, so we throw the leading term $x^{2}z$ of $S\left( f,g \right)$ into remainder. But $xy,y^{2}$ do not divide the new lead term $yzw$ either, so it follows that the remainder is $x^{2}z-yzw$.
+
+        Hence define
+        \begin{equation*}
+            h = x^{2}z-yzw
+        \end{equation*}
+        and update
+        \begin{equation*}
+            F\leftarrow F\cup\left\lbrace h \right\rbrace = \left\lbrace f,g,h \right\rbrace.
+        \end{equation*}
+
+        For this time, we can skip $S\left( f,g \right)$, which was already computed.
+
+        For $f,h$, note that the leading terms $xy, x^{2}z$ are not coprime, and we have
+        \begin{equation*}
+            S\left( f,h \right) = xzf - yh = \left( x^{2}yz-xz^{2}w \right) - \left( x^{2}yz-y^{2}zw \right) = y^{2}zw-xz^{2}w.
+        \end{equation*}
+        Now note that
+        \begin{equation*}
+            -zwg = -zw\left( xz-y^{2} \right) = y^{2}zw - xz^{2}w = S\left( f,h \right),
+        \end{equation*}
+        so that $S\left( f,h \right)$ reduces to $0$ modulo $f,g,h$.
+
+        But for $g,h$, note that
+        \begin{equation*}
+            \initial\left( g \right) = y^{2}, \initial\left( h \right) = x^{2}z,
+        \end{equation*}
+        so that the leading terms are coprime. Then Lemma 2.24 applies and $S\left( g,h \right)$ reduces to $0$ modulo $f,g,h$, so that we can skip computing $S\left( g,h \right)$.
+
+        Thus
+        \begin{equation*}
+            F = \left\lbrace f,g,h \right\rbrace
+        \end{equation*}
+        is a Grobner basis for $I$.
+    \end{example}
+
+    \rruleline
+    
+    \begin{example}{\textbf{Classical Determinantal Variety}}
+        Let
+        \begin{equation*}
+            D_r\left( m,n \right) = \left\lbrace M\in K^{m\times n}: \rank\left( M \right)\leq r \right\rbrace.
+        \end{equation*}
+        Then observe that
+        \begin{equation*}
+            D_r\left( m,n \right) = V_K\left( \left\lbrace \underbrace{\text{all the $\left( r+1 \right)\times\left( r+1 \right)$ minors of $m\times n$ matrix of variables $x_{i,j}$, $1\leq i\leq m, 1\leq j\leq n$.}}_{=J} \right\rbrace \right)
+        \end{equation*}
+
+        We ask:
+        \begin{equation*}
+            \text{\textit{is $J$ the set of all relations (i.e. $J=I\left( D_r\left( m,n \right) \right)$)?}}
+        \end{equation*}
+        Equivalently,
+        \begin{equation*}
+            \text{\textit{is $\left< J \right> $ radical?}}
+        \end{equation*}
+
+        Consider the special case $D_1\left( 2,n \right)$ and let
+        \begin{equation*}
+            J = \left\lbrace \text{$2\times 2$ minors of $\begin{bmatrix} x_1 & \cdots & x_n \\ y_1 & \cdots & y_n \end{bmatrix}$} \right\rbrace.
+        \end{equation*}
+        For convenience, define
+        \begin{equation*}
+            P_{i,j} = x_iy_j - x_jy_i = \text{the minor of columns $i,j$}, \hspace{1cm}\forall i<j.
+        \end{equation*}
+        We are going to understand this case by finding a Grobner basis. Fix a lexicographic order
+        \begin{equation*}
+            x_1 > \cdots > x_n > y_1 > \cdots > y_n.
+        \end{equation*}
+        Then
+        \begin{equation*}
+            \initial\left( P_{i,j} \right) = x_iy_j = \text{the diagonal term} ,\hspace{1cm}\forall i<j.
+        \end{equation*}
+
+        To find a Grobner basis, we observe that
+        \begin{equation*}
+            i\neq k, j\neq l \implies \gcd\left( \initial\left( P_{i,j} \right), \initial\left( P_{k,l} \right) \right) = 1,
+        \end{equation*}
+        so that we can skip those $S$-polynomials. 
+
+        Suppose $i=k$. Without loss of generality, say $j<l$. Then
+        \begin{equation*}
+            S\left( P_{i,j},P_{i,l} \right) = \left( x_iy_jy_l - x_jy_iy_l \right) - \left( x_iy_jy_l-x_ly_iy_j \right) = x_ly_iy_j - x_jy_iy_l = y_i\left( x_ly_j - x_jy_l \right) = -y_iP_{j,l}.
+        \end{equation*}
+        So these $S$-polynomials reduce to $0$.
+
+        In case $j=l$ with $i<k$, an analogous calculation results in
+        \begin{equation*}
+            x_jP_{i,k}
+        \end{equation*}
+        so that $S\left( P_{i,j},P_{k,j} \right)$ reduces to $0$.
+
+        Thus $J$ is a Grobner basis, so that
+        \begin{equation*}
+            \initial\left( J \right) = \left< \initial\left( P_{i,j} \right) \right>_{i<j} = \left< x_iy_j \right>_{i<j}  .
+        \end{equation*}
+        But then note that $\left< x_iy_j \right>_{i<j}$ is radical. Hence it follows that
+        \begin{equation*}
+            \text{$D_1\left( 2,n \right) = \left< J \right>$ is also radical.}
+        \end{equation*}
+    \end{example}
+
+    \rruleline
+
+    \np A more general result holds for Example 2.26.
+
+    \begin{theorem}{Hochster-Eagen}
+        $D_r\left( m,n \right)$ is radical.
+    \end{theorem}
+
+    \rruleline
+
+    \subsection{Reduced Grobner Bases}
+    
+    \begin{definition}{\textbf{Reduced} Grobner Basis}
+        Let $G = \left\lbrace g_k \right\rbrace^{m}_{j=1}$ be a Grobner basis for an ideal $I$. We say $G$ is \emph{reduced} if
+        \begin{enumerate}
+            \item all leading coefficients of $g_j$'s are monic; and
+            \item for $i\neq j$, no $u\in\supp\left( g_i \right)$ is divisible by $\initial\left( g_j \right)$.
+        \end{enumerate}
+    \end{definition} 
+    
+    \begin{theorem}{}
+        Let $I$ be an ideal and fix a monomial order. Then there is a unique reduced Grobner basis for $I$.
+    \end{theorem}
+    
+    \begin{proof}
+        Let $U = \left\lbrace u_1,\ldots,u_m \right\rbrace$ be the set of minimal generators for $\initial\left( I \right)$. For each $u_i$, choose $g_i\in I$ with $\initial\left( g_i \right)= u_i$.
+
+        \begin{claim}
+            \textit{$G=\left\lbrace g_1,\ldots,g_m \right\rbrace$ is a Grobner basis.}
+
+            Run division algorithm on $g_1$ modulo $g_2,\ldots,g_m$ to write
+            \begin{equation*}
+                g_1 = \sum^{m}_{i=2} q_ig_i + r_1.
+            \end{equation*}
+            Then no $u\in\supp\left( r_1 \right)$ is divisible by any $\initial\left( g_i \right)$ for $i\geq 2$. Also, $\initial\left( g_1 \right) \geq \initial\left( q_ig_i \right)$ for $i\geq 2$. 
+
+            If, for some $i\geq 2$,
+            \begin{equation*}
+                \initial\left( g_1 \right) = \initial\left( q_ig_i \right),
+            \end{equation*}
+            then
+            \begin{equation*}
+                u_i\initial\left( q_i \right) = \initial\left( g_i \right)\initial\left( q_i \right) = \initial\left( q_ig_i \right) = \initial\left( g_1 \right) = u_1,
+            \end{equation*}
+            which is absurd.
+
+            Hence we have in fact
+            \begin{equation*}
+                \initial\left( g_1 \right) > \initial\left( q_ig_i \right), \hspace{1cm}\forall i\geq 2.
+            \end{equation*}
+            This means
+            \begin{equation*}
+                \initial\left( r_1 \right) = \initial\left( g_1 \right) = u_1,
+            \end{equation*}
+            so replace $g_1$ with $h_1 = \frac{r_1}{k_1}$, where $k_1$ is the leading coefficient of $r_1$.
+
+            Say we have \textit{fixed} $g_1,\ldots,g_n$ to $h_1,\ldots,h_n$ to obtain a Grobner basis $\left\lbrace h_1,\ldots,h_n,g_{n+1},\ldots,g_m \right\rbrace$. That is, each $\initial\left( h_i \right) = u_i$, $h_i$ is monic, and no $u\in\supp\left( h_i \right)$ is divisible by any $u_j$ for $j\neq i$. Let $r_{n+1}$ be a remainder of $g_{n+1}$ modulo generators. Then
+            \begin{equation*}
+                \initial\left( r_{n+1} \right) = \initial\left( g_{n+1} \right) = u_{n+1}
+            \end{equation*}
+            and no $u\in\supp\left( r_{n+1} \right)$ is divisible by $u_j$ for $j\neq i$. We then replace $g_{n+1}$ by $h_{n+1} = \frac{r_{n+1}}{k_{n+1}}$, where $k_{n+1}$ is the leading coefficient for $r_{n+1}$.
+
+            By induction, $\left\lbrace h_1,\ldots,h_n \right\rbrace$ is a Grobner basis.
+        \end{claim}
+
+        Now that we have shown existence, let us prove uniqueness. Suppose $\left\lbrace g_i \right\rbrace^{m}_{i=1}, \left\lbrace h_j \right\rbrace^{l}_{j=1}$ are reduced Grobner bases for $I$. Then the minimal generators for $\initial\left( I \right)$ must be $\left\lbrace \initial\left( g_i \right) \right\rbrace^{m}_{i=1}$. But so is $\left\lbrace \initial\left( h_j \right) \right\rbrace^{l}_{j=1}$, so it follows $m=l$. Hence reorder elements so that each $\initial\left( g_i \right) = \initial\left( h_i \right)$.
+
+        Let $i\in\left\lbrace 1,\ldots,m \right\rbrace$ and let
+        \begin{equation*}
+            f = g_i-h_i\in I.
+        \end{equation*}
+        Suppose $f\neq 0$. Then $\initial\left( f \right)\in\supp\left( g_i \right)\cup\supp\left( h_i \right)$. Without loss of generality, say $\initial\left( f \right)\in\supp\left( g_i \right)$. Since $\initial\left( f \right)\in\initial\left( I \right)$, we know $\initial\left( f \right)$ is a multiple of some $\initial\left( g_j \right)$. But we know $\initial\left( g_i \right)\notin\supp\left( f \right)$ since $f=g_i-h_i$ and $\initial\left( g_i \right)=\initial\left( h_i \right)$, which means $i\neq j$. But if $i\neq j$, then we have a contradiction against reducedness of $\left\lbrace g_i \right\rbrace^{m}_{i=1}$. 
+
+        Thus $f=0$, so that $g_i=h_i$, as required.
+    \end{proof}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
